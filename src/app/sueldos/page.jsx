@@ -4,7 +4,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Liquidación de Sueldos en Argentina: Delegá y evitá errores",
-  description: "Liquidación de sueldos, cargas sociales y gestión de empleados. Delegá en un estudio contable y evitá errores.",
+  description: "Liquidación de sueldos, cargas sociales y gestión de empleados. Delegá en un estudio contable y evitá errores, multas y pérdida de tiempo.",
   path: "/sueldos",
 });
 

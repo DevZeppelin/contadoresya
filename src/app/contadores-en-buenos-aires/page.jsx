@@ -4,7 +4,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Contadores en Buenos Aires | Estudio Contable y Ahorro Impositivo",
-  description: "Contadores en Buenos Aires para monotributo, impuestos y ARBA. Evitá deudas y pagá menos impuestos.",
+  description: "Contadores en Buenos Aires para monotributo, impuestos y ARBA. Evitá deudas y pagá menos impuestos. Asesoramiento claro y rápido.",
   path: "/contadores-en-buenos-aires",
 });
 

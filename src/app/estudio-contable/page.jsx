@@ -3,8 +3,8 @@ import { pages } from "@/data/pages";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Estudio Contable en Argentina",
-  description: "Estudio contable online en Argentina. Atención personalizada para monotributistas, responsables inscriptos y empresas.",
+  title: "Estudio Contable en Argentina | ContadoresYa",
+  description: "Estudio contable online en Argentina. Atención personalizada para monotributistas, responsables inscriptos y empresas. Consultá ahora.",
   path: "/estudio-contable",
 });
 

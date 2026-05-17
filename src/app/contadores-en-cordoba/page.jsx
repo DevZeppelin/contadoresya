@@ -4,7 +4,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Contadores en Córdoba | Estudio Contable y Asesoramiento Impositivo",
-  description: "Contadores en Córdoba para monotributo, impuestos, Ingresos Brutos y sueldos. Asesoramiento claro y rápido.",
+  description: "Contadores en Córdoba para monotributo, impuestos, Ingresos Brutos y sueldos. Asesoramiento claro y rápido. Consultá ahora.",
   path: "/contadores-en-cordoba",
 });
 
