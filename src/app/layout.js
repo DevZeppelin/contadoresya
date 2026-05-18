@@ -3,6 +3,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingWhatsapp from "@/components/layout/FloatingWhatsapp";
 import JsonLd from "@/components/seo/JsonLd";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 import { siteConfig } from "@/lib/seo";
 
 export const metadata = {
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
         <main>{children}</main>
         <Footer />
         <FloatingWhatsapp />
+        <ScrollReveal />
       </body>
     </html>
   );

@@ -63,23 +63,23 @@ export default function Hero({
         "
       >
         <div className="max-w-3xl">
-          <p className="mb-5 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-bold text-cyan-50 shadow-lg backdrop-blur-md">
+          <p className="fade-up mb-5 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-bold text-cyan-50 shadow-lg backdrop-blur-md">
             Atención online en toda Argentina
           </p>
 
-          <h1 className="text-4xl font-black leading-tight text-white drop-shadow-[0_5px_25px_rgba(0,0,0,0.85)] md:text-6xl">
+          <h1 className="fade-up fade-up-delay-1 text-4xl font-black leading-tight text-white drop-shadow-[0_5px_25px_rgba(0,0,0,0.85)] md:text-6xl">
             {title}
           </h1>
 
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-100 drop-shadow-[0_3px_14px_rgba(0,0,0,0.85)] md:text-xl">
+          <p className="fade-up fade-up-delay-2 mt-6 max-w-2xl text-lg leading-8 text-slate-100 drop-shadow-[0_3px_14px_rgba(0,0,0,0.85)] md:text-xl">
             {subtitle}
           </p>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+          <div className="fade-up fade-up-delay-3 mt-8 grid gap-3 sm:grid-cols-2">
             {bullets.map((b) => (
               <div
                 key={b}
-                className="flex items-start gap-3 rounded-2xl border border-white/10 bg-slate-950/40 p-3 text-sm font-semibold text-white shadow-lg backdrop-blur-md"
+                className="flex items-start gap-3 rounded-2xl border border-white/10 bg-slate-950/40 p-3 text-sm font-semibold text-white shadow-lg backdrop-blur-md transition-colors hover:bg-slate-950/55"
               >
                 <span className="mt-0.5 text-[var(--secondary)]">✔</span>
                 <span>{b}</span>
@@ -87,7 +87,7 @@ export default function Hero({
             ))}
           </div>
 
-          <div className="mt-10 flex flex-wrap gap-4">
+          <div className="fade-up fade-up-delay-4 mt-10 flex flex-wrap gap-4">
             <PrimaryButton>{primary}</PrimaryButton>
             <SecondaryButton>{secondary}</SecondaryButton>
           </div>
