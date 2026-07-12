@@ -27,6 +27,15 @@ export default function ClientInteractions() {
         return;
       }
 
+      const submenuButton = event.target.closest("[data-client-submenu]");
+      if (submenuButton) {
+        event.preventDefault();
+        const item = submenuButton.closest(".nav-dropdown");
+        const open = item?.classList.toggle("client-submenu-open");
+        submenuButton.setAttribute("aria-expanded", String(Boolean(open)));
+        return;
+      }
+
       const navigationLink = event.target.closest("header .nav-links a");
       if (navigationLink) {
         const header = navigationLink.closest("header");
