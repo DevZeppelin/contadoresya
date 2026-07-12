@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { pageMetadata } from "@/lib/seo";
 
 const contentDir = path.join(process.cwd(), "public", "MODIFICACIONES");
 
@@ -52,10 +53,21 @@ export function getClientDocument(route) {
     .replace(/<a[^>]*class=["'][^"']*wa-fab[^"']*["'][\s\S]*?<\/a>/gi, "")
     .replace(/<a[^>]*class=["'][^"']*wa-float[^"']*["'][\s\S]*?<\/a>/gi, "")
     .replace(/<div class=["']hero-card-avatar["']>[^<]*<\/div>/i, '<img class="profile-photo" src="/MODIFICACIONES/profile.png" alt="Cr. Darío Vallinas, contador público matriculado en Mendoza" width="180" height="180">')
+    .replace(/<div class=["']perfil-avatar["']>[^<]*<\/div>/i, '<img class="perfil-avatar perfil-photo" src="/MODIFICACIONES/profile.png" alt="Cr. Darío Vallinas, Contador Público matriculado" width="96" height="96">')
+    .replace(/<\/nav>\s*<\/header>/i, '<button class="client-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button></nav></header>')
     .replace(/class="(service-card|ventaja-item|testi-card|contact-card|article-card|reforma-card)/g, 'data-client-reveal class="$1')
     .replace(/href="https:\/\/www\.contador-en-mendoza\.com\.ar"/g, 'href="/"');
 
   body = replaceSocialLinks(body);
 
   return { title, description, canonical, schemas, styles, body };
+}
+
+export function getClientMetadata(route) {
+  const document = getClientDocument(route);
+  return pageMetadata({
+    title: document.title,
+    description: document.description,
+    path: route,
+  });
 }

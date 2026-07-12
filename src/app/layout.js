@@ -8,10 +8,7 @@ import { siteConfig } from "@/lib/seo";
 
 export const metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: {
-    default: "ContadoresYa | Estudio Contable Online en Argentina",
-    template: "%s | ContadoresYa",
-  },
+  title: "Contador en Mendoza | Cr. Darío Vallinas · C.P.C.E.M.D.Z.",
   description: siteConfig.description,
   authors: [{ name: "Cr. Darío Vallinas" }],
   creator: "Cr. Darío Vallinas",
@@ -25,10 +22,10 @@ export const metadata = {
     "certificación de ingresos",
   ],
   openGraph: {
-    title: "ContadoresYa",
+    title: "Cr. Darío Vallinas · Contador en Mendoza",
     description: siteConfig.description,
     url: siteConfig.url,
-    siteName: "ContadoresYa",
+    siteName: siteConfig.name,
     locale: "es_AR",
     type: "website",
     images: [{ url: "/MODIFICACIONES/profile.png", width: 1024, height: 1024, alt: "Cr. Darío Vallinas" }],

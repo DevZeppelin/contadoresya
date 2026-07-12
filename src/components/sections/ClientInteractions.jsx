@@ -18,6 +18,22 @@ export default function ClientInteractions() {
     documentRoot?.classList.add("client-reveal-ready");
 
     const onClick = (event) => {
+      const menuButton = event.target.closest(".client-menu-toggle");
+      if (menuButton) {
+        const header = menuButton.closest("header");
+        const open = header?.classList.toggle("client-menu-open");
+        menuButton.setAttribute("aria-expanded", String(Boolean(open)));
+        menuButton.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+        return;
+      }
+
+      const navigationLink = event.target.closest("header .nav-links a");
+      if (navigationLink) {
+        const header = navigationLink.closest("header");
+        header?.classList.remove("client-menu-open");
+        header?.querySelector(".client-menu-toggle")?.setAttribute("aria-expanded", "false");
+      }
+
       const button = event.target.closest(".faq-q");
       if (!button) return;
       const item = button.closest(".faq-item");
