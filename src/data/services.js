@@ -1,29 +1,30 @@
 export const services = [
   {
     title: "Monotributo",
-    href: "/monotributo",
+    href: "/servicios-monotributo",
     text: "Alta, recategorización, exclusiones, deudas y control de tu situación fiscal.",
   },
   {
-    title: "Impuestos",
-    href: "/impuestos",
-    text: "IVA, Ganancias, Ingresos Brutos, inscripciones y ordenamiento fiscal.",
+    title: "Ingresos Brutos",
+    href: "/servicios-ingresos-brutos",
+    text: "Liquidación, DDJJ ante ATM, alícuotas, exenciones y regularizaciones.",
   },
   {
-    title: "Deuda ARCA",
-    href: "/deudas-arca",
-    text: "Análisis de deuda, intimaciones, declaraciones pendientes y planes de pago.",
+    title: "Convenio Multilateral",
+    href: "/servicios-convenio-multilateral",
+    text: "IIBB para actividades que operan en más de una provincia.",
   },
   {
-    title: "Sueldos",
-    href: "/sueldos",
-    text: "Liquidación de sueldos, cargas sociales, altas, bajas y gestión laboral.",
+    title: "Responsable Inscripto",
+    href: "/servicios-responsable-inscripto",
+    text: "IVA, Ganancias, Bienes Personales y gestión integral ante ARCA.",
   },
   {
-    title: "Certificación de ingresos",
-    href: "/certificacion-de-ingresos",
-    text: "Certificaciones para alquileres, créditos, billeteras virtuales y trámites.",
+    title: "Contabilidad para PYMES",
+    href: "/servicios-contables-pymes",
+    text: "Balances, libros contables, MiPyME e informes de gestión.",
   },
+  { title: "Liquidación de Sueldos", href: "/servicios-liquidacion-de-sueldos", text: "Recibos, F931, convenios, altas y bajas de empleados." },
 ];
 
 export const localPages = [

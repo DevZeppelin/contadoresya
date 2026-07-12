@@ -13,6 +13,9 @@ export const metadata = {
     template: "%s | ContadoresYa",
   },
   description: siteConfig.description,
+  authors: [{ name: "Cr. Darío Vallinas" }],
+  creator: "Cr. Darío Vallinas",
+  publisher: "Cr. Darío Vallinas",
   keywords: [
     "contador en Mendoza",
     "estudio contable online",
@@ -28,6 +31,7 @@ export const metadata = {
     siteName: "ContadoresYa",
     locale: "es_AR",
     type: "website",
+    images: [{ url: "/MODIFICACIONES/profile.png", width: 1024, height: 1024, alt: "Cr. Darío Vallinas" }],
   },
   robots: { index: true, follow: true },
 };
