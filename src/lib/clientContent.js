@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { pageMetadata } from "@/lib/seo";
 
-const contentDir = path.join(process.cwd(), "public", "MODIFICACIONES");
+const contentDir = path.join(process.cwd(), "src", "content", "client-pages");
 
 export const clientRoutes = {
   "/": "contador-en-mendoza-NUEVA.html",
@@ -52,8 +52,8 @@ export function getClientDocument(route) {
     .replace(/<script[\s\S]*?<\/script>/gi, "")
     .replace(/<a[^>]*class=["'][^"']*wa-fab[^"']*["'][\s\S]*?<\/a>/gi, "")
     .replace(/<a[^>]*class=["'][^"']*wa-float[^"']*["'][\s\S]*?<\/a>/gi, "")
-    .replace(/<div class=["']hero-card-avatar["']>[^<]*<\/div>/i, '<img class="profile-photo" src="/MODIFICACIONES/profile.png" alt="Cr. Darío Vallinas, contador público matriculado en Mendoza" width="180" height="180">')
-    .replace(/<div class=["']perfil-avatar["']>[^<]*<\/div>/i, '<img class="perfil-avatar perfil-photo" src="/MODIFICACIONES/profile.png" alt="Cr. Darío Vallinas, Contador Público matriculado" width="96" height="96">')
+    .replace(/<div class=["']hero-card-avatar["']>[^<]*<\/div>/i, '<img class="profile-photo" src="/images/hero00.png" alt="Cr. Darío Vallinas, contador público matriculado en Mendoza" width="180" height="180">')
+    .replace(/<div class=["']perfil-avatar["']>[^<]*<\/div>/i, '<img class="perfil-avatar perfil-photo" src="/images/hero00.png" alt="Cr. Darío Vallinas, Contador Público matriculado" width="96" height="96">')
     .replace(/<a href=["'](?:\/servicios|#)["']>Servicios\s*▾<\/a>/gi, '<a href="#" data-client-submenu aria-expanded="false">Servicios <span aria-hidden="true">▾</span></a>')
     .replace(/<\/nav>\s*<\/header>/i, '<button class="client-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button></nav></header>')
     .replace(/class="(service-card|ventaja-item|testi-card|contact-card|article-card|reforma-card)/g, 'data-client-reveal class="$1')

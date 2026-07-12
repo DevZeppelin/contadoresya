@@ -8,7 +8,7 @@ export default function JsonLd() {
     url: siteConfig.url,
     telephone: `+${siteConfig.phoneIntl}`,
     email: siteConfig.email,
-    image: `${siteConfig.url}/MODIFICACIONES/profile.png`,
+    image: `${siteConfig.url}/images/hero00.png`,
     priceRange: "$$",
     areaServed: { "@type": "AdministrativeArea", name: "Provincia de Mendoza" },
     address: {

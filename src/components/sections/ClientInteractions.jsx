@@ -24,6 +24,10 @@ export default function ClientInteractions() {
         const open = header?.classList.toggle("client-menu-open");
         menuButton.setAttribute("aria-expanded", String(Boolean(open)));
         menuButton.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+        if (!open) {
+          header?.querySelectorAll(".nav-dropdown.client-submenu-open").forEach((item) => item.classList.remove("client-submenu-open"));
+          header?.querySelectorAll("[data-client-submenu]").forEach((item) => item.setAttribute("aria-expanded", "false"));
+        }
         return;
       }
 
@@ -41,6 +45,8 @@ export default function ClientInteractions() {
         const header = navigationLink.closest("header");
         header?.classList.remove("client-menu-open");
         header?.querySelector(".client-menu-toggle")?.setAttribute("aria-expanded", "false");
+        header?.querySelectorAll(".nav-dropdown.client-submenu-open").forEach((item) => item.classList.remove("client-submenu-open"));
+        header?.querySelectorAll("[data-client-submenu]").forEach((item) => item.setAttribute("aria-expanded", "false"));
       }
 
       const button = event.target.closest(".faq-q");

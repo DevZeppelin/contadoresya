@@ -28,7 +28,7 @@ export const metadata = {
     siteName: siteConfig.name,
     locale: "es_AR",
     type: "website",
-    images: [{ url: "/MODIFICACIONES/profile.png", width: 1024, height: 1024, alt: "Cr. Darío Vallinas" }],
+    images: [{ url: "/images/hero00.png", width: 1536, height: 1024, alt: "Cr. Darío Vallinas" }],
   },
   robots: { index: true, follow: true },
 };

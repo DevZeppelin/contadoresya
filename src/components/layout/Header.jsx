@@ -23,11 +23,11 @@ export default function Header() {
       <div className="container-page flex h-20 items-center justify-between px-6 md:px-16">
         <Link href="/" className="flex items-center gap-3">
           <Image
-            src="/MODIFICACIONES/profile.png"
+            src="/images/hero00.png"
             alt="Cr. Darío Vallinas"
             width={40}
             height={40}
-            className="rounded-full object-cover"
+            className="rounded-full object-cover object-[72%_center]"
           />
 
           <span className="leading-tight">

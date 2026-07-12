@@ -28,13 +28,13 @@ export function pageMetadata({ title, description, path = "/" }) {
       siteName: siteConfig.name,
       locale: "es_AR",
       type: "website",
-      images: [{ url: "/MODIFICACIONES/profile.png", width: 1024, height: 1024, alt: "Cr. Darío Vallinas, Contador Público en Mendoza" }],
+      images: [{ url: "/images/hero00.png", width: 1536, height: 1024, alt: "Cr. Darío Vallinas, Contador Público en Mendoza" }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/MODIFICACIONES/profile.png"],
+      images: ["/images/hero00.png"],
     },
     robots: {
       index: true,

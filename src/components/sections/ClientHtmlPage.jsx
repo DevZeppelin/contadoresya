@@ -25,8 +25,8 @@ export default function ClientHtmlPage({ route }) {
         .client-document a[href*="instagram"] svg,
         .client-document a[href*="linkedin"] svg { width:20px; height:20px; flex:none; }
         .client-document .perfil-redes a { width:38px; height:38px; }
-        .client-document .profile-photo { width:160px; height:160px; margin:0 auto 16px; border-radius:50%; object-fit:cover; object-position:center top; display:block; }
-        .client-document .perfil-photo { object-fit:cover; object-position:center top; padding:0; }
+        .client-document .profile-photo { width:160px; height:160px; margin:0 auto 16px; border-radius:50%; object-fit:cover; object-position:72% center; display:block; }
+        .client-document .perfil-photo { object-fit:cover; object-position:72% center; padding:0; }
         .client-document .client-menu-toggle { display:none; }
         .client-document.client-reveal-ready [data-client-reveal] {
           opacity:0; transform:translateY(20px);
@@ -48,8 +48,10 @@ export default function ClientHtmlPage({ route }) {
           .client-document header.client-menu-open .nav-links { display:flex; }
           .client-document header .nav-links li,.client-document header .nav-links a { width:100%; }
           .client-document header .nav-links a { display:block; padding:11px 12px; }
-          .client-document header .nav-dropdown-menu { position:static; min-width:0; padding:4px 0 4px 12px; display:none; border:0; box-shadow:none; }
-          .client-document header .nav-dropdown.client-submenu-open .nav-dropdown-menu { display:block; }
+          .client-document header .nav-dropdown-menu,
+          .client-document header .nav-dropdown:hover .nav-dropdown-menu { position:static; min-width:0; padding:4px 0 4px 12px; display:none!important; border:0; box-shadow:none; }
+          .client-document header .nav-dropdown.client-submenu-open .nav-dropdown-menu,
+          .client-document header .nav-dropdown.client-submenu-open:hover .nav-dropdown-menu { display:block!important; }
           .client-document .quick-nav { display:none; }
           .client-document .topbar { display:none; }
         }
