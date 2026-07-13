@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brief DevZeppelin — Estudio Contable Vallinas — Julio 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --primary: #0a1f3c;
+    --accent: #2563eb;
+    --green: #16a34a;
+    --red: #dc2626;
+    --amber: #d97706;
+    --bg-green: #dcfce7;
+    --bg-red: #fee2e2;
+    --bg-amber: #fef3c7;
+    --bg-blue: #dbeafe;
+    --gray50: #f8fafc;
+    --gray100: #f1f5f9;
+    --gray200: #e2e8f0;
+    --gray600: #475569;
+    --gray800: #1e293b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--gray800);
+    background: #fff;
+    line-height: 1.6;
+  }
+
+  @media print {
+    body { font-size: 11px; }
+    .page-break { page-break-before: always; }
+    .no-print { display: none; }
+    .cover, th, .notice, .step.header, .nap-label, .tag { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 0 32px 64px; }
+
+  /* COVER */
+  .cover {
+    background: var(--primary); color: white;
+    padding: 64px 48px 48px; margin-bottom: 48px; border-radius: 0 0 16px 16px;
+  }
+  .cover-label { font-size: 11px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; }
+  .cover h1 { font-size: 36px; font-weight: 700; line-height: 1.15; margin-bottom: 8px; }
+  .cover-sub { font-size: 17px; color: #cbd5e1; margin-bottom: 32px; }
+  .cover-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 32px; border-top: 1px solid #1e3a5f; padding-top: 28px; }
+  .cover-meta-label { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #64748b; margin-bottom: 2px; }
+  .cover-meta-val { font-size: 14px; color: #e2e8f0; }
+
+  /* SECTIONS */
+  .section { margin-bottom: 48px; }
+  h2.section-title {
+    font-size: 20px; font-weight: 700; color: var(--primary);
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 8px; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2.section-title .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--accent); color: white; font-size: 14px; font-weight: 700; flex-shrink: 0;
+  }
+  h3.sub { font-size: 15px; font-weight: 600; color: var(--accent); margin: 24px 0 12px; }
+
+  /* NOTICES */
+  .notice { border-radius: 8px; padding: 14px 18px; border-left: 4px solid; margin: 16px 0; font-size: 13px; }
+  .notice.red { background: var(--bg-red); border-color: var(--red); }
+  .notice.amber { background: var(--bg-amber); border-color: var(--amber); }
+  .notice.blue { background: var(--bg-blue); border-color: var(--accent); }
+  .notice.green { background: var(--bg-green); border-color: var(--green); }
+  .notice strong { margin-right: 4px; }
+
+  /* TABLES */
+  .tbl-wrap { overflow-x: auto; margin: 16px 0; border-radius: 10px; border: 1px solid var(--gray200); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: var(--primary); color: white; padding: 10px 14px; text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+  td { padding: 9px 14px; border-bottom: 1px solid var(--gray200); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: var(--gray50); }
+  .td-old { color: var(--red); background: #fff5f5 !important; }
+  .td-new { color: var(--green); background: #f0fdf4 !important; }
+  .td-file { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--accent); }
+  .td-bold { font-weight: 600; }
+
+  /* TAGS */
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .tag.red { background: var(--bg-red); color: var(--red); }
+  .tag.amber { background: var(--bg-amber); color: var(--amber); }
+  .tag.green { background: var(--bg-green); color: var(--green); }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+  .checklist li { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; }
+  .checklist li .icon { flex-shrink: 0; margin-top: 1px; }
+
+  /* STEPS */
+  .steps { border-radius: 10px; border: 1px solid var(--gray200); overflow: hidden; margin: 16px 0; }
+  .step { display: grid; grid-template-columns: 44px 1fr 170px 120px; border-bottom: 1px solid var(--gray200); }
+  .step:last-child { border-bottom: none; }
+  .step.header { background: var(--primary); color: white; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .step > div { padding: 10px 14px; font-size: 13px; }
+  .step:nth-child(even):not(.header) > div { background: var(--gray50); }
+  .step-num { font-weight: 700; color: var(--accent); text-align: center; }
+  .step.header > div { color: white; }
+
+  /* NAP */
+  .nap-grid { display: grid; grid-template-columns: 160px 1fr; border-radius: 10px; border: 1px solid var(--gray200); overflow: hidden; max-width: 700px; }
+  .nap-label { background: var(--primary); color: #94a3b8; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; padding: 9px 14px; border-bottom: 1px solid #1e3a5f; }
+  .nap-val { background: white; padding: 9px 14px; border-bottom: 1px solid var(--gray200); font-size: 13px; font-family: 'JetBrains Mono', monospace; }
+  .nap-label:last-of-type, .nap-val:last-child { border-bottom: none; }
+
+  /* PRINT BAR */
+  .print-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    background: var(--primary); padding: 10px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    color: white; font-size: 13px;
+  }
+  .print-btn {
+    background: var(--accent); color: white; border: none; padding: 7px 18px;
+    border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; font-family: inherit;
+  }
+  .print-btn:hover { background: #1d4ed8; }
+  body { padding-top: 50px; }
+  @media print { body { padding-top: 0; } .print-bar { display: none; } }
+  p { margin-bottom: 8px; font-size: 13px; color: var(--gray600); }
+  code { background: var(--gray100); padding: 1px 5px; border-radius: 3px; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="print-bar no-print">
+  <span>📋 Brief DevZeppelin · Estudio Contable Vallinas · Julio 2026</span>
+  <button class="print-btn" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+</div>
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="cover-label">Brief Técnico — Correcciones SEO + Nuevas Páginas HTML</div>
+  <h1>Brief para DevZeppelin</h1>
+  <div class="cover-sub">Estudio Contable · Dr. Darío Vallinas · Mat. 9156 C.P.C.E.M.D.Z.</div>
+  <div class="cover-meta">
+    <div>
+      <div class="cover-meta-label">Para</div>
+      <div class="cover-meta-val">DevZeppelin.com.ar</div>
+    </div>
+    <div>
+      <div class="cover-meta-label">Fecha</div>
+      <div class="cover-meta-val">Julio 2026</div>
+    </div>
+    <div>
+      <div class="cover-meta-label">Sitio 1</div>
+      <div class="cover-meta-val">contador-en-mendoza.com.ar — Hub SEO orgánico</div>
+    </div>
+    <div>
+      <div class="cover-meta-label">Sitio 2</div>
+      <div class="cover-meta-val">estudio-contable-mendoza.com.ar — Landing Google Ads</div>
+    </div>
+    <div>
+      <div class="cover-meta-label">Preparado por</div>
+      <div class="cover-meta-val">Cr. Darío Vallinas · cpnvallinas@gmail.com</div>
+    </div>
+    <div>
+      <div class="cover-meta-label">WhatsApp</div>
+      <div class="cover-meta-val">+54 261 574-0182</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="notice blue">
+  <strong>📋 Alcance:</strong> Este brief contiene los archivos HTML finales listos para reemplazar el contenido actual de ambos sitios, más una lista de correcciones adicionales que deben aplicarse a nivel de servidor/CMS.
+</div>
+
+<!-- ══ SECCIÓN 1: ARCHIVOS ══ -->
+<div class="section">
+  <h2 class="section-title"><span class="num">1</span>Archivos entregados</h2>
+
+  <h3 class="sub">1.1 — contador-en-mendoza.com.ar (10 archivos)</h3>
+  <p>Todos los archivos son HTML estático listos para integrar en el CMS Next.js actual.</p>
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>Archivo HTML</th><th>URL de destino</th></tr>
+      <tr><td class="td-file">contador-en-mendoza-NUEVA.html</td><td>https://www.contador-en-mendoza.com.ar/ <strong>(HOME)</strong></td></tr>
+      <tr><td class="td-file">servicios-monotributo.html</td><td>https://www.contador-en-mendoza.com.ar/servicios-monotributo</td></tr>
+      <tr><td class="td-file">servicios-ingresos-brutos.html</td><td>https://www.contador-en-mendoza.com.ar/servicios-ingresos-brutos</td></tr>
+      <tr><td class="td-file">servicios-convenio-multilateral.html</td><td>https://www.contador-en-mendoza.com.ar/servicios-convenio-multilateral</td></tr>
+      <tr><td class="td-file">servicios-responsable-inscripto.html</td><td>https://www.contador-en-mendoza.com.ar/servicios-responsable-inscripto</td></tr>
+      <tr><td class="td-file">servicios-contables-pymes.html</td><td>https://www.contador-en-mendoza.com.ar/servicios-contables-pymes</td></tr>
+      <tr><td class="td-file">servicios-liquidacion-de-sueldos.html</td><td>https://www.contador-en-mendoza.com.ar/servicios-liquidacion-de-sueldos</td></tr>
+      <tr><td class="td-file">actualidad.html</td><td>https://www.contador-en-mendoza.com.ar/actualidad</td></tr>
+      <tr><td class="td-file">faq.html</td><td>https://www.contador-en-mendoza.com.ar/faq</td></tr>
+      <tr><td class="td-file">contacto.html</td><td>https://www.contador-en-mendoza.com.ar/contacto</td></tr>
+    </table>
+  </div>
+
+  <h3 class="sub">1.2 — estudio-contable-mendoza.com.ar (1 archivo)</h3>
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>Archivo HTML</th><th>URL de destino</th></tr>
+      <tr><td class="td-file">estudio-contable-mendoza-NUEVA.html</td><td>https://www.estudio-contable-mendoza.com.ar/ <strong>(HOME)</strong></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══ SECCIÓN 2: SERVIDOR ══ -->
+<div class="section page-break">
+  <h2 class="section-title"><span class="num">2</span>Correcciones en servidor — Acción requerida</h2>
+
+  <div class="notice red">
+    <strong>⚠️ Estas correcciones NO están en los HTML entregados</strong> — deben aplicarse directamente en el servidor / CMS / templates de Next.js.
+  </div>
+
+  <h3 class="sub">2.1 — contador-en-mendoza.com.ar</h3>
+
+  <p><strong>🔴 CRÍTICO — NAP incorrecto (dirección física)</strong></p>
+  <p>El sitio actual muestra la dirección incorrecta en el hero y en cualquier lugar donde figure la ubicación:</p>
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>Campo</th><th>Valor ACTUAL (incorrecto)</th><th>Valor CORRECTO</th></tr>
+      <tr>
+        <td class="td-bold">Dirección completa</td>
+        <td class="td-old">Av. Bandera de los Andes 3169, Villa Nueva</td>
+        <td class="td-new">Av. Bandera de los Andes 3170, Guaymallén</td>
+      </tr>
+      <tr>
+        <td class="td-bold">Número</td>
+        <td class="td-old">3169</td>
+        <td class="td-new">3170</td>
+      </tr>
+      <tr>
+        <td class="td-bold">Localidad</td>
+        <td class="td-old">Villa Nueva</td>
+        <td class="td-new">Guaymallén</td>
+      </tr>
+    </table>
+  </div>
+  <div class="notice red">
+    <strong>🚨 Impacto:</strong> Google compara la dirección del sitio web con la de la ficha de Google Business Profile. Si difieren, penaliza el posicionamiento local. Este es el hallazgo más crítico de toda la auditoría.
+  </div>
+
+  <p style="margin-top:20px"><strong>🔴 CRÍTICO — og:image URL rota (doble "h")</strong></p>
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>Campo</th><th>Valor ACTUAL (incorrecto)</th><th>Valor CORRECTO</th></tr>
+      <tr>
+        <td class="td-bold">og:image URL</td>
+        <td class="td-old"><code>hhttps://www.contador-en-mendoza.com.ar/...</code></td>
+        <td class="td-new"><code>https://www.contador-en-mendoza.com.ar/...</code></td>
+      </tr>
+    </table>
+  </div>
+  <div class="notice amber">
+    <strong>⚠️ Impacto:</strong> Al compartir el sitio en WhatsApp, LinkedIn o Facebook, no aparece la imagen preview. Afecta conversión de referidos.
+  </div>
+
+  <p style="margin-top:20px"><strong>🟡 IMPORTANTE — H1 sin keyword principal</strong></p>
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>Campo</th><th>Valor ACTUAL</th><th>Valor NUEVO (ya en el HTML entregado)</th></tr>
+      <tr>
+        <td class="td-bold">H1 principal</td>
+        <td class="td-old">"La mejor solución, para sus negocios."</td>
+        <td class="td-new">"Contador en Mendoza · Cr. Darío Vallinas"</td>
+      </tr>
+    </table>
+  </div>
+  <div class="notice blue">
+    <strong>ℹ️ Nota:</strong> El H1 nuevo ya está en el archivo HTML entregado. Solo confirmar que el CMS lo implementa correctamente y no sobrescribe el H1 con su propio template.
+  </div>
+
+  <p style="margin-top:20px"><strong>🟡 IMPORTANTE — meta-author</strong></p>
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>Campo</th><th>Valor ACTUAL</th><th>Valor NUEVO</th></tr>
+      <tr>
+        <td class="td-bold">meta name="author"</td>
+        <td class="td-old">DevZeppelin.com.ar</td>
+        <td class="td-new">Cr. Darío Vallinas</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3 class="sub" style="margin-top:28px">2.2 — estudio-contable-mendoza.com.ar</h3>
+
+  <p><strong>🟡 IMPORTANTE — Rating incorrecto (sitio actual)</strong></p>
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>Campo</th><th>Valor ACTUAL</th><th>Valor CORRECTO (ya en HTML entregado)</th></tr>
+      <tr>
+        <td class="td-bold">Rating en hero badge</td>
+        <td class="td-old">★★★★★ 4.9 en Google</td>
+        <td class="td-new">★★★★★ 5.0 · 56 reseñas en Google</td>
+      </tr>
+      <tr>
+        <td class="td-bold">Rating en sección testimonios</td>
+        <td class="td-old">⭐ 4.9 de calificación en Google</td>
+        <td class="td-new">⭐ 5.0 · 56 reseñas en Google</td>
+      </tr>
+    </table>
+  </div>
+
+  <p style="margin-top:20px"><strong>🟡 IMPORTANTE — Google Tag Manager</strong></p>
+  <p>El contenedor <code>GTM-WXQ3JNXK</code> está activo en el sitio actual.</p>
+  <div class="notice amber">
+    <strong>⚠️ Acción requerida:</strong> Verificar que el contenedor GTM-WXQ3JNXK se mantiene en el nuevo HTML. Sin GTM no hay datos de conversión en la campaña de Google Ads activa.
+  </div>
+</div>
+
+<!-- ══ SECCIÓN 3: MEJORAS EN HTML ══ -->
+<div class="section page-break">
+  <h2 class="section-title"><span class="num">3</span>Mejoras ya aplicadas en los HTML entregados</h2>
+  <p>Estos cambios están incorporados en los archivos. No requieren acción del programador — solo subir los archivos tal como están.</p>
+
+  <h3 class="sub">3.1 — Home: contador-en-mendoza.com.ar</h3>
+  <div class="tbl-wrap">
+    <table>
+      <tr><th style="width:200px">Elemento</th><th>ANTES (sitio actual)</th><th>DESPUÉS (nuevo HTML)</th></tr>
+      <tr>
+        <td class="td-bold">&lt;title&gt;</td>
+        <td class="td-old">Contador en Mendoza | Monotributo, PYMES, Ingresos Brutos y Empresas</td>
+        <td class="td-new">Contador en Mendoza | Cr. Darío Vallinas · C.P.C.E.M.D.Z.</td>
+      </tr>
+      <tr>
+        <td class="td-bold">meta description</td>
+        <td class="td-old">Sin matrícula, sin CTA directo</td>
+        <td class="td-new">Con Mat. 9156 · C.P.C.E.M.D.Z. y CTA "Consultá sin cargo" (154 chars)</td>
+      </tr>
+      <tr>
+        <td class="td-bold">og:image URL</td>
+        <td class="td-old">hhttps://... (rota)</td>
+        <td class="td-new">https://... (corregida)</td>
+      </tr>
+      <tr>
+        <td class="td-bold">H1</td>
+        <td class="td-old">"La mejor solución, para sus negocios."</td>
+        <td class="td-new">"Contador en Mendoza · Cr. Darío Vallinas"</td>
+      </tr>
+      <tr>
+        <td class="td-bold">Schema JSON-LD</td>
+        <td class="td-old">No existía</td>
+        <td class="td-new">AccountingService + FAQPage + AggregateRating (5.0 · 56 reseñas)</td>
+      </tr>
+      <tr>
+        <td class="td-bold">NAP en schema</td>
+        <td class="td-old">No existía</td>
+        <td class="td-new">Av. Bandera de los Andes 3170, Guaymallén, Mendoza CP 5521</td>
+      </tr>
+      <tr>
+        <td class="td-bold">Calendly URL</td>
+        <td class="td-old">calendly.com/cpnvallinas</td>
+        <td class="td-new">calendly.com/contador-publico-matriculado-mendoza</td>
+      </tr>
+      <tr>
+        <td class="td-bold">Testimonios</td>
+        <td class="td-old">Anónimos, sin badge Google</td>
+        <td class="td-new">Reales: Ayelen Anze, Alberto Herrera, Paulo 2R + más con ⭐⭐⭐⭐⭐ Google</td>
+      </tr>
+      <tr>
+        <td class="td-bold">Rating visual</td>
+        <td class="td-old">4.9 (sin total de reseñas)</td>
+        <td class="td-new">5.0 · 56 reseñas en Google (hero + card de perfil)</td>
+      </tr>
+      <tr>
+        <td class="td-bold">meta-author</td>
+        <td class="td-old">DevZeppelin.com.ar</td>
+        <td class="td-new">Cr. Darío Vallinas</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3 class="sub" style="margin-top:28px">3.2 — Páginas internas (9 páginas completamente nuevas)</h3>
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>URL</th><th>&lt;title&gt;</th><th>H1</th></tr>
+      <tr>
+        <td class="td-file">/servicios-monotributo</td>
+        <td>Monotributo en Mendoza | Cr. Darío Vallinas · Alta, Recategorización...</td>
+        <td>Monotributo en Mendoza</td>
+      </tr>
+      <tr>
+        <td class="td-file">/servicios-ingresos-brutos</td>
+        <td>Ingresos Brutos Mendoza | Cr. Darío Vallinas · Liquidación IIBB ATM</td>
+        <td>Ingresos Brutos en Mendoza</td>
+      </tr>
+      <tr>
+        <td class="td-file">/servicios-convenio-multilateral</td>
+        <td>Convenio Multilateral Mendoza | Cr. Darío Vallinas · IIBB Multijurisdiccional</td>
+        <td>Convenio Multilateral en Mendoza</td>
+      </tr>
+      <tr>
+        <td class="td-file">/servicios-responsable-inscripto</td>
+        <td>Responsable Inscripto Mendoza | Cr. Darío Vallinas · IVA, Ganancias...</td>
+        <td>Responsable Inscripto en Mendoza</td>
+      </tr>
+      <tr>
+        <td class="td-file">/servicios-contables-pymes</td>
+        <td>Servicios Contables para PYMES en Mendoza | Cr. Darío Vallinas · Balances y Contabilidad</td>
+        <td>Servicios Contables para PYMES en Mendoza</td>
+      </tr>
+      <tr>
+        <td class="td-file">/servicios-liquidacion-de-sueldos</td>
+        <td>Liquidación de Sueldos Mendoza | Cr. Darío Vallinas · Recibos, F931...</td>
+        <td>Liquidación de Sueldos en Mendoza</td>
+      </tr>
+      <tr>
+        <td class="td-file">/faq</td>
+        <td>Preguntas Frecuentes | Contador en Mendoza · Cr. Darío Vallinas</td>
+        <td>Preguntas Frecuentes sobre Impuestos y Contabilidad en Mendoza</td>
+      </tr>
+      <tr>
+        <td class="td-file">/actualidad</td>
+        <td>Actualidad Impositiva Mendoza | Cr. Darío Vallinas · Novedades ARCA y ATM</td>
+        <td>Actualidad Impositiva y Contable</td>
+      </tr>
+      <tr>
+        <td class="td-file">/contacto</td>
+        <td>Contacto | Contador en Mendoza · Cr. Darío Vallinas</td>
+        <td>Contacto con el Contador en Mendoza</td>
+      </tr>
+    </table>
+  </div>
+
+  <p style="margin-top:16px"><strong>Características comunes a todas las páginas internas:</strong></p>
+  <ul class="checklist">
+    <li><span class="icon">✅</span><span>Schema.org <strong>FAQPage</strong> con 5-6 preguntas por página → rich snippets en Google</span></li>
+    <li><span class="icon">✅</span><span>Schema.org <strong>AccountingService</strong> con NAP: Av. Bandera de los Andes 3170, Guaymallén</span></li>
+    <li><span class="icon">✅</span><span>Tags de cobertura: 14 localidades de Mendoza + "100% Online"</span></li>
+    <li><span class="icon">✅</span><span>Testimonio real de Google con nombre completo + ⭐⭐⭐⭐⭐ (uno por página, elegido temáticamente)</span></li>
+    <li><span class="icon">✅</span><span>WA deeplink con texto pre-llenado por servicio (ej. "consulto sobre monotributo")</span></li>
+    <li><span class="icon">✅</span><span>CTA principal: <em>"Consultá con el Contador"</em> — sin la palabra "gratis" (cumple código de ética C.P.C.E.M.D.Z.)</span></li>
+    <li><span class="icon">✅</span><span>Calendly URL unificada: <code>calendly.com/contador-publico-matriculado-mendoza</code> (23 ocurrencias corregidas)</span></li>
+    <li><span class="icon">✅</span><span>Canonical declarado · meta robots: index, follow · Breadcrumb visible</span></li>
+    <li><span class="icon">✅</span><span>Sección "Otros servicios" con enlaces internos entre páginas</span></li>
+  </ul>
+
+  <div class="notice blue" style="margin-top:16px">
+    <strong>📌 /servicios-liquidacion-de-sueldos:</strong> Incluye sección especial sobre la <strong>Ley 27.802 de Modernización Laboral</strong> (vigente marzo 2026) con 5 cards: base de indemnización, FAL, período de prueba, registración ARCA y tope en litigios.
+  </div>
+</div>
+
+<!-- ══ SECCIÓN 4: ESTUDIO-CONTABLE ══ -->
+<div class="section page-break">
+  <h2 class="section-title"><span class="num">4</span>estudio-contable-mendoza.com.ar — ANTES vs DESPUÉS</h2>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr><th style="width:210px">Elemento</th><th>ANTES (sitio actual)</th><th>DESPUÉS (nuevo HTML)</th></tr>
+      <tr>
+        <td class="td-bold">&lt;title&gt;</td>
+        <td class="td-old">Estudio Contable en Mendoza 🌟 Contador Público... (emoji en title)</td>
+        <td class="td-new">Estudio Contable en Mendoza | Contador Público Matriculado</td>
+      </tr>
+      <tr>
+        <td class="td-bold">meta description</td>
+        <td class="td-old">158 chars — excede límite, Google trunca</td>
+        <td class="td-new">146 chars — CTA: "Reunión orientativa sin cargo. Consultá ya."</td>
+      </tr>
+      <tr>
+        <td class="td-bold">Rating en hero</td>
+        <td class="td-old">★★★★★ 4.9 en Google</td>
+        <td class="td-new">★★★★★ 5.0 · 56 reseñas en Google</td>
+      </tr>
+      <tr>
+        <td class="td-bold">AggregateRating (schema)</td>
+        <td class="td-old">No existía</td>
+        <td class="td-new">ratingValue: 5.0 · ratingCount: 56</td>
+      </tr>
+      <tr>
+        <td class="td-bold">Schema AccountingService</td>
+        <td class="td-old">No existía</td>
+        <td class="td-new">Con NAP: 3170, Guaymallén + horarios de atención</td>
+      </tr>
+      <tr>
+        <td class="td-bold">FAQPage schema</td>
+        <td class="td-old">No existía</td>
+        <td class="td-new">7 preguntas → mejora Quality Score de la campaña de Ads</td>
+      </tr>
+      <tr>
+        <td class="td-bold">NAP en footer</td>
+        <td class="td-old">Solo WhatsApp y email (sin dirección física)</td>
+        <td class="td-new">+ Av. Bandera de los Andes 3170, Guaymallén, Mendoza CP 5521</td>
+      </tr>
+      <tr>
+        <td class="td-bold">WA deeplink</td>
+        <td class="td-old">wa.me/542615740182 (sin texto)</td>
+        <td class="td-new">wa.me/542615740182?text=Hola!+Quiero+hacer+una+consulta.</td>
+      </tr>
+      <tr>
+        <td class="td-bold">Testimonios ⚠️ CRÍTICO</td>
+        <td class="td-old">FALSOS: "Martín G.", "Laura S.", "Carlos R." — sin apellido, sin badge</td>
+        <td class="td-new">REALES: Mariela Diaz, Grecia Lopez, Alberto Herrera — nombre completo + ⭐⭐⭐⭐⭐ + badge Google verificado</td>
+      </tr>
+      <tr>
+        <td class="td-bold">H2 con error editorial</td>
+        <td class="td-old">"Estudio Contable en Mendoza?" (sin signo ¿ de apertura)</td>
+        <td class="td-new">"¿Cómo te ayuda nuestro Estudio Contable en Mendoza?"</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="notice amber" style="margin-top:16px">
+    <strong>⚠️ Testimonios falsos vs reales:</strong> Google puede penalizar testimonios no verificables en páginas de Google Ads. Usar reseñas reales con nombre completo mejora el Quality Score y puede reducir el CPC de la campaña.
+  </div>
+</div>
+
+<!-- ══ SECCIÓN 5: IMPLEMENTACIÓN ══ -->
+<div class="section page-break">
+  <h2 class="section-title"><span class="num">5</span>Instrucciones de implementación</h2>
+
+  <h3 class="sub">5.1 — Orden de implementación sugerido</h3>
+  <div class="steps">
+    <div class="step header">
+      <div>#</div><div>Acción</div><div>Sitio</div><div>Prioridad</div>
+    </div>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>Corregir dirección: "3169, Villa Nueva" → "3170, Guaymallén" en todos los templates del CMS</div>
+      <div>contador-en-mendoza</div>
+      <div><span class="tag red">🔴 Crítico</span></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>Corregir og:image URL: eliminar la "h" extra ("hhttps" → "https") en next.config</div>
+      <div>contador-en-mendoza</div>
+      <div><span class="tag red">🔴 Crítico</span></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>Subir estudio-contable-mendoza-NUEVA.html (reemplaza home actual)</div>
+      <div>estudio-contable</div>
+      <div><span class="tag red">🔴 Urgente</span></div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div>Verificar que GTM-WXQ3JNXK sigue presente en el nuevo HTML</div>
+      <div>estudio-contable</div>
+      <div><span class="tag red">🔴 Urgente</span></div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div>Subir contador-en-mendoza-NUEVA.html (reemplaza home actual)</div>
+      <div>contador-en-mendoza</div>
+      <div><span class="tag amber">🟡 Alta</span></div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div>Crear las 9 páginas internas en el CMS usando los HTML entregados</div>
+      <div>contador-en-mendoza</div>
+      <div><span class="tag amber">🟡 Alta</span></div>
+    </div>
+    <div class="step">
+      <div class="step-num">7</div>
+      <div>Cambiar meta-author de "DevZeppelin.com.ar" a "Cr. Darío Vallinas"</div>
+      <div>contador-en-mendoza</div>
+      <div><span class="tag green">🟢 Media</span></div>
+    </div>
+    <div class="step">
+      <div class="step-num">8</div>
+      <div>Validar schema en Google Rich Results Test para ambas homes</div>
+      <div>Ambos</div>
+      <div><span class="tag green">🟢 Media</span></div>
+    </div>
+    <div class="step">
+      <div class="step-num">9</div>
+      <div>Solicitar reindexado en Google Search Console (11 URLs nuevas)</div>
+      <div>Ambos</div>
+      <div><span class="tag green">🟢 Media</span></div>
+    </div>
+  </div>
+
+  <h3 class="sub" style="margin-top:28px">5.2 — Validaciones post-publicación</h3>
+  <ul class="checklist">
+    <li><span class="icon">🔍</span><span><a href="https://search.google.com/test/rich-results" style="color:var(--accent)"><strong>Rich Results Test</strong></a> — verificar schema AccountingService + FAQPage en ambas homes</span></li>
+    <li><span class="icon">⚡</span><span><a href="https://pagespeed.web.dev" style="color:var(--accent)"><strong>PageSpeed Insights</strong></a> — score mobile &gt; 85</span></li>
+    <li><span class="icon">📊</span><span><strong>Google Search Console</strong> → Cobertura → Solicitar indexado de las 11 URLs nuevas</span></li>
+    <li><span class="icon">🎯</span><span><strong>Google Ads</strong> → Verificar Quality Score de la landing (objetivo: ≥ 7)</span></li>
+    <li><span class="icon">🖼️</span><span><a href="https://www.opengraph.xyz" style="color:var(--accent)"><strong>opengraph.xyz</strong></a> — confirmar que la imagen preview se ve correctamente al compartir</span></li>
+    <li><span class="icon">📍</span><span><strong>GBP:</strong> Confirmar que la dirección de la ficha coincide con la del sitio (3170, Guaymallén)</span></li>
+  </ul>
+
+  <h3 class="sub" style="margin-top:28px">5.3 — Datos NAP (referencia oficial para todos los archivos)</h3>
+  <div class="nap-grid">
+    <div class="nap-label">Nombre comercial</div><div class="nap-val">Contador Público Matriculado en Mendoza - Dario Vallinas</div>
+    <div class="nap-label">Dirección</div><div class="nap-val">Av. Bandera de los Andes 3170, Guaymallén, Mendoza</div>
+    <div class="nap-label">CP</div><div class="nap-val">5521</div>
+    <div class="nap-label">Teléfono / WA</div><div class="nap-val">+54 9 261 574-0182</div>
+    <div class="nap-label">Email</div><div class="nap-val">cpnvallinas@gmail.com</div>
+    <div class="nap-label">Calendly</div><div class="nap-val">https://calendly.com/contador-publico-matriculado-mendoza</div>
+    <div class="nap-label">WA deeplink</div><div class="nap-val">https://wa.me/542615740182</div>
+    <div class="nap-label">Matrícula</div><div class="nap-val">9156 · C.P.C.E.M.D.Z.</div>
+  </div>
+</div>
+
+<!-- ══ SECCIÓN 6: RESUMEN ══ -->
+<div class="section page-break">
+  <h2 class="section-title"><span class="num">6</span>Resumen ejecutivo</h2>
+
+  <h3 class="sub">✅ Ya corregido en los archivos entregados</h3>
+  <ul class="checklist">
+    <li><span class="icon" style="color:var(--green)">✅</span><span>Schema.org completo (AccountingService + FAQPage) en home y en las 9 páginas internas</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>AggregateRating: 5.0 · 56 reseñas — corregido desde 4.9 / "XX"</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>NAP en schema: Av. Bandera de los Andes 3170, Guaymallén, Mendoza CP 5521</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>NAP en footer de estudio-contable: dirección completa agregada</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>Calendly URL unificada en todos los archivos — 23 ocurrencias corregidas</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>Testimonios 100% reales con nombre completo y badge Google verificado en ambos sitios</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>Rating visual 5.0 · 56 reseñas en todos los textos visibles y en el schema</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>og:image URL corregida (eliminado "hhttps")</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>H1 con keyword principal en todas las páginas</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>meta-author: "Cr. Darío Vallinas"</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>CTA: "Consultá con el Contador" — sin "gratis" (cumple código de ética C.P.C.E.M.D.Z.)</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>9 páginas internas nuevas con diseño, SEO y contenido completo</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>WA deeplinks con texto pre-llenado por servicio</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>Title FAQ: reducido a 52 chars (evita truncado en mobile)</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>Title PYMES: diferenciador "· Balances y Contabilidad" incorporado</span></li>
+    <li><span class="icon" style="color:var(--green)">✅</span><span>H1 Contacto: "Contacto con el Contador en Mendoza"</span></li>
+  </ul>
+
+  <h3 class="sub" style="margin-top:24px">🔴 Pendiente para el programador en servidor</h3>
+  <ul class="checklist">
+    <li><span class="icon">🔴</span><span>Dirección: <strong>"3169, Villa Nueva" → "3170, Guaymallén"</strong> en templates del CMS</span></li>
+    <li><span class="icon">🔴</span><span>og:image URL: <strong>"hhttps" → "https"</strong> en next.config</span></li>
+    <li><span class="icon">🟡</span><span><strong>GTM-WXQ3JNXK</strong> presente en el nuevo HTML de estudio-contable (verificar antes de publicar)</span></li>
+    <li><span class="icon">🟡</span><span>Solicitar reindexado en Search Console tras publicar</span></li>
+    <li><span class="icon">🟢</span><span>Validar schema con Google Rich Results Test post-publicación</span></li>
+  </ul>
+
+  <div class="notice green" style="margin-top:24px">
+    <strong>✅ Resultado esperado:</strong> contador-en-mendoza.com.ar queda técnicamente óptimo para SEO orgánico en "contador en mendoza", "monotributo mendoza", "ingresos brutos mendoza" y variantes. estudio-contable-mendoza.com.ar queda listo para la campaña de Google Ads con social proof real, message match y schema que mejora el Quality Score.
+  </div>
+</div>
+
+<div style="border-top: 1px solid var(--gray200); padding-top: 20px; text-align: center; color: var(--gray600); font-size: 12px; margin-top: 40px;">
+  Confidencial — Uso exclusivo DevZeppelin.com.ar · Preparado por Cr. Darío Vallinas · cpnvallinas@gmail.com · +54 261 574-0182
+</div>
+
+</div>
+</body>
+</html>

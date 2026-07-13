@@ -56,8 +56,8 @@ export function getClientDocument(route) {
     .replace(/<div class=["']perfil-avatar["']>[^<]*<\/div>/i, '<img class="perfil-avatar perfil-photo" src="/images/hero00.png" alt="Cr. Darío Vallinas, Contador Público matriculado" width="96" height="96">')
     .replace(/<a href=["'](?:\/servicios|#)["']>Servicios\s*▾<\/a>/gi, '<a href="#" data-client-submenu aria-expanded="false">Servicios <span aria-hidden="true">▾</span></a>')
     .replace(/<\/nav>\s*<\/header>/i, '<button class="client-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button></nav></header>')
-    .replace(/class="(service-card|ventaja-item|testi-card|contact-card|article-card|reforma-card)/g, 'data-client-reveal class="$1')
-    .replace(/href="https:\/\/www\.contador-en-mendoza\.com\.ar"/g, 'href="/"');
+    .replace(/class="(service-card|ventaja-item|testi-card|contact-card|article-card|reforma-card|section-header|blog-card|sidebar-card|svc-card|faq-item|faq-block|highlight-box|impuesto-item|flow-step|cct-item|info-row)/g, 'data-client-reveal class="$1')
+    .replace(/href="https:\/\/www\.contador-en-mendoza\.com\.ar\/?(#[^"]*)?"/g, (_, hash) => `href="/${hash || ""}"`);
 
   body = replaceSocialLinks(body);
 

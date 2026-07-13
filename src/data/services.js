@@ -28,7 +28,6 @@ export const services = [
 ];
 
 export const localPages = [
-  { title: "Contadores en Mendoza", href: "/contadores-en-mendoza" },
   { title: "Contadores en Córdoba", href: "/contadores-en-cordoba" },
   { title: "Contadores en Buenos Aires", href: "/contadores-en-buenos-aires" },
 ];

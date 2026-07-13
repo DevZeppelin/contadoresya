@@ -2,7 +2,6 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingWhatsapp from "@/components/layout/FloatingWhatsapp";
-import JsonLd from "@/components/seo/JsonLd";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { siteConfig } from "@/lib/seo";
 
@@ -37,7 +36,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es-AR">
       <body>
-        <JsonLd />
         <Header />
         <main>{children}</main>
         <Footer />

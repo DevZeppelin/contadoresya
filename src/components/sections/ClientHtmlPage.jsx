@@ -1,5 +1,6 @@
 import { getClientDocument } from "@/lib/clientContent";
 import ClientInteractions from "./ClientInteractions";
+import JsonLd from "@/components/seo/JsonLd";
 
 export default function ClientHtmlPage({ route }) {
   const page = getClientDocument(route);
@@ -7,6 +8,7 @@ export default function ClientHtmlPage({ route }) {
 
   return (
     <>
+      {page.schemas.length === 0 && <JsonLd />}
       {page.schemas.map((schema, index) => (
         <script key={index} type="application/ld+json" dangerouslySetInnerHTML={{ __html: schema }} />
       ))}

@@ -10,11 +10,21 @@ export default function ClientInteractions() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("client-reveal-in");
+          entry.target.addEventListener("transitionend", () => {
+            entry.target.style.transitionDelay = "";
+          }, { once: true });
           observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.06, rootMargin: "0px 0px 80px" });
-    revealItems.forEach((item) => observer.observe(item));
+    const siblingCounts = new Map();
+    revealItems.forEach((item) => {
+      const parent = item.parentElement;
+      const index = siblingCounts.get(parent) || 0;
+      siblingCounts.set(parent, index + 1);
+      item.style.transitionDelay = `${Math.min(index, 6) * 70}ms`;
+      observer.observe(item);
+    });
     documentRoot?.classList.add("client-reveal-ready");
 
     const onClick = (event) => {

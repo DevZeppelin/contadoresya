@@ -5,10 +5,12 @@ import ContactForm from "./ContactForm";
 import TestimonialsWithMap from "./TestimonialsWithMap";
 import SeoTextSection from "./SeoTextSection";
 import CTASection from "./CTASection";
+import JsonLd from "@/components/seo/JsonLd";
 
 export default function PageBuilder({ page }) {
   return (
     <>
+      <JsonLd />
       <Hero title={page.hero.title} subtitle={page.hero.subtitle} bullets={page.hero.bullets} primary={page.hero.primary} secondary={page.hero.secondary} />
       {page.sections?.map((section) =>
         section.type === "bullets"
