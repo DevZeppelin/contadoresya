@@ -1,12 +1,12 @@
 export const siteConfig = {
-  name: "Cr. Darío Vallinas · Contador en Mendoza",
-  url: "https://www.contador-en-mendoza.com.ar",
+  name: "ContadoresYa",
+  url: "https://www.contadoresya.ar",
   description:
-    "Estudio contable online en Argentina especializado en monotributo, impuestos, ARCA, sueldos y certificaciones.",
+    "Estudio contable online en Argentina: monotributo, deudas ARCA, impuestos, sueldos y certificaciones. Respuesta en menos de 24 hs.",
   phone: "2615740182",
   phoneIntl: "542615740182",
   email: "cpnvallinas@gmail.com",
-  whatsapp: "https://wa.me/542615740182",
+  whatsapp: "https://wa.me/542615740182?text=Hola!+Quiero+hacer+una+consulta.",
   address: "Av. Bandera de los Andes 3170",
   postalCode: "5521",
   addressLocality: "Guaymallén",
@@ -15,7 +15,7 @@ export const siteConfig = {
 };
 
 export function pageMetadata({ title, description, path = "/" }) {
-  const url = `${siteConfig.url}${path}`;
+  const url = path === "/" ? `${siteConfig.url}/` : `${siteConfig.url}${path}`;
 
   return {
     title,
@@ -28,7 +28,7 @@ export function pageMetadata({ title, description, path = "/" }) {
       siteName: siteConfig.name,
       locale: "es_AR",
       type: "website",
-      images: [{ url: "/images/hero00.png", width: 1536, height: 1024, alt: "Cr. Darío Vallinas, Contador Público en Mendoza" }],
+      images: [{ url: "/images/hero00.png", width: 1536, height: 1024, alt: "Cr. Darío Vallinas, Contador Público matriculado" }],
     },
     twitter: {
       card: "summary_large_image",

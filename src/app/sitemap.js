@@ -1,29 +1,22 @@
-import { clientRoutes } from "@/lib/clientContent";
 import { siteConfig } from "@/lib/seo";
 
-// Páginas propias fuera del contenido del cliente (sin equivalente nuevo; las rutas duplicadas redirigen vía next.config)
-const legacyRoutes = [
-  "/estudio-contable",
-  "/impuestos",
-  "/deudas-arca",
-  "/certificacion-de-ingresos",
-  "/contadores-en-cordoba",
-  "/contadores-en-buenos-aires",
+// Prioridades según el brief DevZeppelin (sección 2, sitemap)
+const routes = [
+  { path: "/", priority: 1.0 },
+  { path: "/deudas-arca", priority: 0.9 },
+  { path: "/monotributo", priority: 0.8 },
+  { path: "/impuestos", priority: 0.8 },
+  { path: "/sueldos", priority: 0.8 },
+  { path: "/certificacion-de-ingresos", priority: 0.8 },
+  { path: "/contadores-en-mendoza", priority: 0.7 },
+  { path: "/estudio-contable", priority: 0.6 },
 ];
 
 export default function sitemap() {
-  return [
-    ...Object.keys(clientRoutes).map((route) => ({
-      url: `${siteConfig.url}${route === "/" ? "" : route}`,
-      lastModified: new Date(),
-      changeFrequency: route === "/actualidad" ? "weekly" : "monthly",
-      priority: route === "/" ? 1 : route === "/contacto" ? 0.8 : 0.9,
-    })),
-    ...legacyRoutes.map((route) => ({
-      url: `${siteConfig.url}${route}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    })),
-  ];
+  return routes.map(({ path, priority }) => ({
+    url: path === "/" ? `${siteConfig.url}/` : `${siteConfig.url}${path}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority,
+  }));
 }

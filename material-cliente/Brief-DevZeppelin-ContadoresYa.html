@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brief Técnico — ContadoresYa.ar · DevZeppelin</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#0a1f3c;
+  --accent:#0891b2;
+  --accent-l:#e0f2fe;
+  --green:#16a34a;
+  --green-l:#dcfce7;
+  --red:#dc2626;
+  --red-l:#fee2e2;
+  --amber:#d97706;
+  --amber-l:#fef3c7;
+  --gray900:#0f172a;
+  --gray800:#1e293b;
+  --gray600:#475569;
+  --gray400:#94a3b8;
+  --gray200:#e2e8f0;
+  --gray100:#f1f5f9;
+  --gray50:#f8fafc;
+  --white:#fff
+}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--gray800);background:var(--gray50);font-size:14px;line-height:1.6}
+/* ——— TOP BAR ——— */
+.topbar{background:var(--primary);color:#fff;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.topbar-brand{font-weight:800;font-size:18px;letter-spacing:-.3px}
+.topbar-brand span{color:var(--accent)}
+.topbar-meta{display:flex;align-items:center;gap:16px;font-size:12px;color:#94a3b8}
+.topbar-meta strong{color:#e2e8f0}
+.btn-print{background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
+.btn-print:hover{background:#0e7490}
+/* ——— HERO BANNER ——— */
+.hero{background:linear-gradient(135deg,var(--primary) 0%,#0c3060 100%);color:#fff;padding:40px 32px;border-bottom:3px solid var(--accent)}
+.hero-inner{max-width:1100px;margin:0 auto}
+.hero-title{font-size:26px;font-weight:800;margin-bottom:8px;line-height:1.2}
+.hero-title span{color:var(--accent)}
+.hero-sub{font-size:15px;color:#cbd5e1;margin-bottom:24px;max-width:700px}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid}
+.chip-teal{background:rgba(8,145,178,.15);border-color:rgba(8,145,178,.4);color:#7dd3fc}
+.chip-green{background:rgba(22,163,74,.15);border-color:rgba(22,163,74,.4);color:#86efac}
+.chip-amber{background:rgba(217,119,6,.15);border-color:rgba(217,119,6,.4);color:#fcd34d}
+/* ——— LAYOUT ——— */
+.page{max-width:1100px;margin:0 auto;padding:32px 24px}
+/* ——— SECTIONS ——— */
+.section{background:var(--white);border:1px solid var(--gray200);border-radius:14px;margin-bottom:28px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.section-header{background:var(--primary);padding:16px 24px;display:flex;align-items:center;gap:12px}
+.section-number{width:30px;height:30px;background:var(--accent);border-radius:50%;font-size:14px;font-weight:800;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-title{font-size:16px;font-weight:700;color:#fff}
+.section-body{padding:24px}
+/* ——— ALERT ——— */
+.alert{padding:14px 18px;border-radius:10px;margin-bottom:20px;border-left:4px solid;font-size:13px}
+.alert-red{background:var(--red-l);border-color:var(--red);color:#7f1d1d}
+.alert-green{background:var(--green-l);border-color:var(--green);color:#14532d}
+.alert-amber{background:var(--amber-l);border-color:var(--amber);color:#78350f}
+.alert-blue{background:var(--accent-l);border-color:var(--accent);color:#075985}
+.alert strong{font-weight:700}
+/* ——— FILE LIST ——— */
+.file-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.file-item{background:var(--gray50);border:1px solid var(--gray200);border-radius:10px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px}
+.file-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.file-name{font-family:monospace;font-size:12px;font-weight:700;color:var(--primary);margin-bottom:4px}
+.file-desc{font-size:12px;color:var(--gray600);line-height:1.5}
+.file-url{font-family:monospace;font-size:11px;color:var(--accent);margin-top:4px;display:block}
+/* ——— SERVER FIXES ——— */
+.server-fix{background:var(--gray50);border:1px solid var(--gray200);border-radius:10px;padding:16px;margin-bottom:12px}
+.server-fix-title{font-weight:700;color:var(--primary);font-size:13px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.priority-badge{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:6px}
+.prio-critical{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
+.prio-high{background:#fffbeb;color:#d97706;border:1px solid #fde68a}
+.prio-medium{background:var(--accent-l);color:var(--accent);border:1px solid #bae6fd}
+.server-fix-desc{font-size:13px;color:var(--gray600);line-height:1.6}
+.code-block{background:var(--gray900);color:#e2e8f0;padding:12px 16px;border-radius:8px;font-family:monospace;font-size:12px;line-height:1.7;margin-top:10px;overflow-x:auto;white-space:pre}
+.code-block .comment{color:#64748b}
+.code-block .keyword{color:#7dd3fc}
+.code-block .value{color:#86efac}
+/* ——— ANTES / DESPUÉS TABLES ——— */
+.page-block{margin-bottom:32px}
+.page-block-title{font-size:15px;font-weight:700;color:var(--primary);margin-bottom:4px;padding-bottom:8px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:10px}
+.page-url-badge{font-family:monospace;font-size:11px;font-weight:600;background:var(--accent-l);color:var(--accent);padding:3px 10px;border-radius:6px}
+.diff-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:12px}
+.diff-table th{text-align:left;padding:10px 14px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.diff-table th:first-child{background:#fef2f2;color:var(--red);width:22%}
+.diff-table th:nth-child(2){background:var(--red-l);color:var(--red);width:39%}
+.diff-table th:nth-child(3){background:var(--green-l);color:var(--green);width:39%}
+.diff-table td{padding:10px 14px;vertical-align:top;border-bottom:1px solid var(--gray200);line-height:1.55}
+.diff-table tr:last-child td{border-bottom:none}
+.diff-table td:first-child{font-weight:700;color:var(--gray600);font-size:11px;background:var(--gray50)}
+.diff-table td:nth-child(2){background:#fffafa;color:var(--red);font-family:monospace}
+.diff-table td:nth-child(3){background:#f0fdf4;color:var(--green);font-family:monospace}
+.tag-new{display:inline-block;font-size:10px;font-weight:700;background:var(--green-l);color:var(--green);border:1px solid #bbf7d0;padding:1px 6px;border-radius:4px;margin-left:4px;vertical-align:middle;font-family:sans-serif}
+.tag-fix{display:inline-block;font-size:10px;font-weight:700;background:var(--amber-l);color:var(--amber);border:1px solid #fde68a;padding:1px 6px;border-radius:4px;margin-left:4px;vertical-align:middle;font-family:sans-serif}
+.tag-del{display:inline-block;font-size:10px;font-weight:700;background:var(--red-l);color:var(--red);border:1px solid #fecaca;padding:1px 6px;border-radius:4px;margin-left:4px;vertical-align:middle;font-family:sans-serif}
+/* ——— CHECKLIST ——— */
+.checklist{display:flex;flex-direction:column;gap:8px}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;background:var(--gray50);border-radius:8px;border:1px solid var(--gray200)}
+.check-box{width:18px;height:18px;border:2px solid var(--gray400);border-radius:4px;flex-shrink:0;margin-top:1px}
+.check-text{font-size:13px;color:var(--gray800);line-height:1.5}
+.check-text strong{color:var(--primary)}
+/* ——— STEP LIST ——— */
+.steps{counter-reset:step;display:flex;flex-direction:column;gap:10px}
+.step{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:var(--gray50);border:1px solid var(--gray200);border-radius:10px}
+.step::before{counter-increment:step;content:counter(step);width:28px;height:28px;background:var(--primary);color:#fff;border-radius:50%;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-content{flex:1}
+.step-title{font-weight:700;color:var(--primary);font-size:13px;margin-bottom:3px}
+.step-desc{font-size:12px;color:var(--gray600);line-height:1.5}
+/* ——— SUMMARY GRID ——— */
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.summary-card{background:var(--primary);border-radius:12px;padding:20px;text-align:center;color:#fff}
+.summary-num{font-size:32px;font-weight:800;color:var(--accent);line-height:1}
+.summary-label{font-size:12px;color:#94a3b8;margin-top:6px}
+/* ——— FOOTER ——— */
+.brief-footer{background:var(--gray800);color:#94a3b8;padding:20px 32px;display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-top:32px}
+.brief-footer strong{color:#e2e8f0}
+/* ——— PRINT ——— */
+@media print{
+  .topbar .btn-print,.topbar-meta button{display:none}
+  .topbar{position:relative;box-shadow:none}
+  body{background:#fff}
+  .section{break-inside:avoid;page-break-inside:avoid}
+  .page-block{break-inside:avoid}
+  .diff-table td,.diff-table th{font-size:10px;padding:6px 10px}
+  .summary-grid{grid-template-columns:repeat(4,1fr)}
+  .file-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){.file-grid{grid-template-columns:1fr}.summary-grid{grid-template-columns:repeat(2,1fr)}.diff-table{font-size:11px}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-brand">Contadores<span>Ya</span> · Brief Técnico DevZeppelin</div>
+  <div class="topbar-meta">
+    <span><strong>Sitio:</strong> www.contadoresya.ar</span>
+    <span><strong>Fecha:</strong> Julio 2026</span>
+    <span><strong>Versión:</strong> 1.0</span>
+    <button class="btn-print" onclick="window.print()">🖨 Imprimir / PDF</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-title">Brief de Cambios — <span>www.contadoresya.ar</span></div>
+    <p class="hero-sub">Documento técnico para implementación del sitio rediseñado. Incluye archivos entregados, correcciones de servidor, tabla ANTES vs DESPUÉS por página e instrucciones de implementación.</p>
+    <div class="hero-chips">
+      <span class="chip chip-teal">📁 8 páginas HTML entregadas</span>
+      <span class="chip chip-green">✅ SEO corregido · Zero canibalización</span>
+      <span class="chip chip-amber">⚙️ Correcciones de servidor requeridas</span>
+      <span class="chip chip-teal">🔒 Canónicas www corregidas</span>
+      <span class="chip chip-green">📊 Schema.org en todas las páginas</span>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ════════════════════════════════════════
+     SECCIÓN 1 — ARCHIVOS ENTREGADOS
+════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">1</div>
+    <div class="section-title">Archivos entregados — 8 páginas HTML</div>
+  </div>
+  <div class="section-body">
+    <div class="alert alert-blue"><strong>Instrucción:</strong> Cada archivo HTML reemplaza íntegramente la página correspondiente del sitio actual. Los archivos ya incluyen todo el CSS inline y no requieren hojas de estilo externas. Subir uno a uno verificando que la URL final coincida con la columna URL.</div>
+    <div class="file-grid">
+      <div class="file-item">
+        <div class="file-icon">🏠</div>
+        <div>
+          <div class="file-name">contadoresya-home.html</div>
+          <div class="file-desc">Home / Inicio del sitio. Nueva propuesta de valor nacional sin "Mendoza" en título ni H1.</div>
+          <span class="file-url">→ URL: https://www.contadoresya.ar/</span>
+        </div>
+      </div>
+      <div class="file-item">
+        <div class="file-icon">⚠️</div>
+        <div>
+          <div class="file-name">contadoresya-deudas-arca.html</div>
+          <div class="file-desc">Página estrella del sitio. Keyword: "Deuda ARCA". Hero rojo urgencia. Schema FAQPage + BreadcrumbList.</div>
+          <span class="file-url">→ URL: https://www.contadoresya.ar/deudas-arca</span>
+        </div>
+      </div>
+      <div class="file-item">
+        <div class="file-icon">📋</div>
+        <div>
+          <div class="file-name">contadoresya-monotributo.html</div>
+          <div class="file-desc">Keyword: "Monotributo Argentina" (sin Mendoza). Exclusión, recategorización, deuda.</div>
+          <span class="file-url">→ URL: https://www.contadoresya.ar/monotributo</span>
+        </div>
+      </div>
+      <div class="file-item">
+        <div class="file-icon">📑</div>
+        <div>
+          <div class="file-name">contadoresya-impuestos.html</div>
+          <div class="file-desc">Keyword: "Impuestos online Argentina". IVA, Ganancias, Bienes Personales.</div>
+          <span class="file-url">→ URL: https://www.contadoresya.ar/impuestos</span>
+        </div>
+      </div>
+      <div class="file-item">
+        <div class="file-icon">👥</div>
+        <div>
+          <div class="file-name">contadoresya-sueldos.html</div>
+          <div class="file-desc">Keyword: "Liquidación de sueldos online Argentina". CCT Comercio, Construcción, Gastronómicos, LCT.</div>
+          <span class="file-url">→ URL: https://www.contadoresya.ar/sueldos</span>
+        </div>
+      </div>
+      <div class="file-item">
+        <div class="file-icon">📄</div>
+        <div>
+          <div class="file-name">contadoresya-certificacion-de-ingresos.html</div>
+          <div class="file-desc">Keyword: "Certificación de ingresos online". Para créditos, alquileres, visas y trámites.</div>
+          <span class="file-url">→ URL: https://www.contadoresya.ar/certificacion-de-ingresos</span>
+        </div>
+      </div>
+      <div class="file-item">
+        <div class="file-icon">🍇</div>
+        <div>
+          <div class="file-name">contadoresya-contadores-en-mendoza.html</div>
+          <div class="file-desc">PÁGINA CRÍTICA. Keyword pivotada: "Contador online para Mendoza" (ya no compite con contador-en-mendoza.com.ar). Incluye ATM, Mendoza Activa, Enlazados, Emprende Semilla, Google Maps y NAP completo.</div>
+          <span class="file-url">→ URL: https://www.contadoresya.ar/contadores-en-mendoza</span>
+        </div>
+      </div>
+      <div class="file-item">
+        <div class="file-icon">🏛</div>
+        <div>
+          <div class="file-name">contadoresya-estudio-contable.html</div>
+          <div class="file-desc">Página institucional / Sobre el Estudio. Perfil del Cr. Vallinas, valores, reseñas, vínculos a los 3 dominios. Schema Person + AccountingService.</div>
+          <span class="file-url">→ URL: https://www.contadoresya.ar/estudio-contable</span>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-amber" style="margin-top:16px"><strong>Páginas a eliminar / redirigir:</strong> Las páginas <code>/contadores-en-cordoba</code> y <code>/contadores-en-buenos-aires</code> existentes deben eliminarse del sitio. Configurar redirección 301 de cada una hacia <code>/</code> (home) para no generar 404.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECCIÓN 2 — CORRECCIONES DE SERVIDOR
+════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">2</div>
+    <div class="section-title">Correcciones en servidor / CMS — Antes de subir los HTML</div>
+  </div>
+  <div class="section-body">
+    <div class="alert alert-red"><strong>Crítico:</strong> Estas correcciones deben aplicarse en el servidor <strong>antes o simultáneamente</strong> con la subida de los HTML. Sin ellas, el sitio sigue sirviendo URLs duplicadas que dañan el SEO.</div>
+
+    <div class="server-fix">
+      <div class="server-fix-title">
+        🔴 Redirección 301: no-www → www
+        <span class="priority-badge prio-critical">CRÍTICO</span>
+      </div>
+      <div class="server-fix-desc">
+        <strong>Problema detectado:</strong> El sitio responde tanto en <code>contadoresya.ar</code> (sin www) como en <code>www.contadoresya.ar</code>. Google las trata como dos sitios distintos, dividiendo la autoridad. Todos los canonicals nuevos apuntan a www.<br><br>
+        <strong>Solución:</strong> Forzar redirect 301 permanente de no-www a www en <code>.htaccess</code> (Apache) o en la configuración de Nginx/hosting.
+      </div>
+      <div class="code-block"><span class="comment"># .htaccess — Apache</span>
+RewriteEngine On
+<span class="keyword">RewriteCond</span> <span class="value">%{HTTP_HOST}</span> !^www\. [NC]
+<span class="keyword">RewriteRule</span> <span class="value">^(.*)</span>$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+
+<span class="comment"># Nginx (nginx.conf)</span>
+server {
+    <span class="keyword">listen</span> <span class="value">80</span>;
+    <span class="keyword">server_name</span> <span class="value">contadoresya.ar</span>;
+    <span class="keyword">return</span> <span class="value">301 https://www.contadoresya.ar$request_uri</span>;
+}</div>
+    </div>
+
+    <div class="server-fix">
+      <div class="server-fix-title">
+        🔴 Forzar HTTPS en todo el sitio
+        <span class="priority-badge prio-critical">CRÍTICO</span>
+      </div>
+      <div class="server-fix-desc">
+        <strong>Problema:</strong> Si el sitio responde también por HTTP, Google puede indexar versiones duplicadas y el navegador muestra "Sitio no seguro".<br><br>
+        <strong>Solución:</strong> Redirigir todo el tráfico HTTP → HTTPS con 301 permanente.
+      </div>
+      <div class="code-block"><span class="comment"># .htaccess — Apache (combinar con el bloque www arriba)</span>
+RewriteCond <span class="value">%{HTTPS}</span> off
+RewriteRule <span class="value">^(.*)</span>$ https://www.contadoresya.ar/$1 [R=301,L]</div>
+    </div>
+
+    <div class="server-fix">
+      <div class="server-fix-title">
+        🟠 Eliminar páginas /contadores-en-cordoba y /contadores-en-buenos-aires y redirigir
+        <span class="priority-badge prio-high">ALTO</span>
+      </div>
+      <div class="server-fix-desc">
+        <strong>Problema:</strong> Estas dos páginas existían como plantillas casi idénticas a /contadores-en-mendoza, generando contenido casi-duplicado. El Estudio no ofrece servicios en esas provincias.<br><br>
+        <strong>Solución:</strong> Eliminar los archivos del servidor y configurar redirect 301 hacia home.
+      </div>
+      <div class="code-block"><span class="comment"># .htaccess</span>
+<span class="keyword">Redirect</span> <span class="value">301 /contadores-en-cordoba https://www.contadoresya.ar/</span>
+<span class="keyword">Redirect</span> <span class="value">301 /contadores-en-buenos-aires https://www.contadoresya.ar/</span></div>
+    </div>
+
+    <div class="server-fix">
+      <div class="server-fix-title">
+        🟠 Canonical: actualizar todas las canónicas a versión www
+        <span class="priority-badge prio-high">ALTO</span>
+      </div>
+      <div class="server-fix-desc">
+        <strong>Problema detectado:</strong> El sitio actual tenía canonicals apuntando a <code>https://contadoresya.ar/</code> (sin www), mientras el sitio servía con www. Inconsistencia que confunde a Google sobre la URL preferida.<br><br>
+        <strong>Solución:</strong> Los nuevos HTML ya tienen canonicals corregidos (<code>https://www.contadoresya.ar/página</code>). Solo verificar que el CMS no sobreescriba las etiquetas canonical con su propia lógica.
+      </div>
+    </div>
+
+    <div class="server-fix">
+      <div class="server-fix-title">
+        🟡 Verificación Google Search Console para www.contadoresya.ar
+        <span class="priority-badge prio-medium">MEDIO</span>
+      </div>
+      <div class="server-fix-desc">
+        <strong>Acción:</strong> En Google Search Console, verificar que la propiedad preferida sea <code>https://www.contadoresya.ar</code> (con www) y solicitar reindexación de las páginas modificadas una vez subidas. También revisar si ya hay una propiedad para <code>https://contadoresya.ar</code> (sin www) y marcarla como propiedad secundaria.
+      </div>
+    </div>
+
+    <div class="server-fix">
+      <div class="server-fix-title">
+        🟡 Sitemap XML
+        <span class="priority-badge prio-medium">MEDIO</span>
+      </div>
+      <div class="server-fix-desc">
+        <strong>Acción:</strong> Actualizar el sitemap.xml para incluir las 8 URLs correctas (todas con www y https). Excluir las URLs de córdoba y buenos aires. Enviar el sitemap actualizado a Search Console.
+      </div>
+      <div class="code-block"><span class="comment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+&lt;<span class="keyword">urlset</span> xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+  &lt;<span class="keyword">url</span>&gt;&lt;loc&gt;<span class="value">https://www.contadoresya.ar/</span>&lt;/loc&gt;&lt;priority&gt;1.0&lt;/priority&gt;&lt;/url&gt;
+  &lt;<span class="keyword">url</span>&gt;&lt;loc&gt;<span class="value">https://www.contadoresya.ar/deudas-arca</span>&lt;/loc&gt;&lt;priority&gt;0.9&lt;/priority&gt;&lt;/url&gt;
+  &lt;<span class="keyword">url</span>&gt;&lt;loc&gt;<span class="value">https://www.contadoresya.ar/monotributo</span>&lt;/loc&gt;&lt;priority&gt;0.8&lt;/priority&gt;&lt;/url&gt;
+  &lt;<span class="keyword">url</span>&gt;&lt;loc&gt;<span class="value">https://www.contadoresya.ar/impuestos</span>&lt;/loc&gt;&lt;priority&gt;0.8&lt;/priority&gt;&lt;/url&gt;
+  &lt;<span class="keyword">url</span>&gt;&lt;loc&gt;<span class="value">https://www.contadoresya.ar/sueldos</span>&lt;/loc&gt;&lt;priority&gt;0.8&lt;/priority&gt;&lt;/url&gt;
+  &lt;<span class="keyword">url</span>&gt;&lt;loc&gt;<span class="value">https://www.contadoresya.ar/certificacion-de-ingresos</span>&lt;/loc&gt;&lt;priority&gt;0.8&lt;/priority&gt;&lt;/url&gt;
+  &lt;<span class="keyword">url</span>&gt;&lt;loc&gt;<span class="value">https://www.contadoresya.ar/contadores-en-mendoza</span>&lt;/loc&gt;&lt;priority&gt;0.7&lt;/priority&gt;&lt;/url&gt;
+  &lt;<span class="keyword">url</span>&gt;&lt;loc&gt;<span class="value">https://www.contadoresya.ar/estudio-contable</span>&lt;/loc&gt;&lt;priority&gt;0.6&lt;/priority&gt;&lt;/url&gt;
+&lt;/<span class="keyword">urlset</span>&gt;</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECCIÓN 3 — TABLA ANTES / DESPUÉS
+════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">3</div>
+    <div class="section-title">Cambios en HTML — ANTES vs DESPUÉS por página</div>
+  </div>
+  <div class="section-body">
+    <div class="alert alert-blue">La columna ANTES refleja el estado de <strong>contadoresya.ar en el momento del relevamiento SEO</strong>. La columna DESPUÉS es el contenido de los archivos entregados. Las diferencias marcadas en 🔴 son correcciones críticas de SEO.</div>
+
+    <!-- HOME -->
+    <div class="page-block">
+      <div class="page-block-title">
+        🏠 HOME <span class="page-url-badge">https://www.contadoresya.ar/</span>
+      </div>
+      <table class="diff-table">
+        <thead><tr><th>Campo</th><th>❌ ANTES</th><th>✅ DESPUÉS</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Title</td>
+            <td>Contadores en Mendoza | ContadoresYa</td>
+            <td>Estudio Contable Online | Monotributo y Deuda ARCA | ContadoresYa <span class="tag-fix">CORREGIDO</span></td>
+          </tr>
+          <tr>
+            <td>Meta description</td>
+            <td>Contadores en Mendoza. Encontrá tu contador ideal… (genérico, sin CTA)</td>
+            <td>Resolvé monotributo, deudas ARCA, impuestos y sueldos con un contador matriculado. Atención 100% online en toda Argentina. Respuesta en menos de 24 hs. Consultá ya. <span class="tag-fix">CORREGIDO</span></td>
+          </tr>
+          <tr>
+            <td>H1</td>
+            <td>Contadores en Mendoza Online</td>
+            <td>Resolvé tu problema fiscal con un contador online, hoy <span class="tag-fix">CORREGIDO</span></td>
+          </tr>
+          <tr>
+            <td>Canonical</td>
+            <td>&lt;link rel="canonical" href="https://contadoresya.ar/"&gt; (sin www)</td>
+            <td>&lt;link rel="canonical" href="https://www.contadoresya.ar/"&gt; (con www) <span class="tag-fix">CORREGIDO</span></td>
+          </tr>
+          <tr>
+            <td>Schema.org</td>
+            <td>Sin schema (no había JSON-LD)</td>
+            <td>AccountingService + AggregateRating (5.0/56) + FAQPage (5 preguntas) <span class="tag-new">NUEVO</span></td>
+          </tr>
+          <tr>
+            <td>Keyword foco</td>
+            <td>"Contadores en Mendoza" → canibaliza contador-en-mendoza.com.ar</td>
+            <td>"Estudio Contable Online" + "Deuda ARCA" + "Monotributo Argentina" → sin competencia entre dominios <span class="tag-fix">CORREGIDO</span></td>
+          </tr>
+          <tr>
+            <td>Testimonios</td>
+            <td>4 testimonios genéricos sin nombre real ni fuente</td>
+            <td>Reseñas reales verificadas de Google: Alberto Herrera + Grecia Lopez <span class="tag-fix">CORREGIDO</span></td>
+          </tr>
+          <tr>
+            <td>WhatsApp</td>
+            <td>Link genérico a wa.me/542615740182</td>
+            <td>Deeplink pre-cargado con mensaje de contexto <span class="tag-fix">CORREGIDO</span></td>
+          </tr>
+          <tr>
+            <td>meta-keywords</td>
+            <td>Presente con "contador en Mendoza" repetido (amplifica canibalización)</td>
+            <td>Eliminado (Google lo ignora; lo dejaba señal negativa de contenido duplicado) <span class="tag-del">ELIMINADO</span></td>
+          </tr>
+          <tr>
+            <td>og:locale</td>
+            <td>Ausente</td>
+            <td>og:locale = es_AR <span class="tag-new">NUEVO</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DEUDAS ARCA -->
+    <div class="page-block">
+      <div class="page-block-title">
+        ⚠️ DEUDAS ARCA <span class="page-url-badge">https://www.contadoresya.ar/deudas-arca</span>
+        <span class="tag-new">PÁGINA NUEVA</span>
+      </div>
+      <table class="diff-table">
+        <thead><tr><th>Campo</th><th>❌ ANTES</th><th>✅ DESPUÉS</th></tr></thead>
+        <tbody>
+          <tr><td>Title</td><td>Página no existía en el sitio</td><td>Deuda ARCA: Cómo Regularizar tu Situación | ContadoresYa <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Meta description</td><td>—</td><td>¿Tenés deuda en ARCA? Analizamos intimaciones, declaraciones pendientes y planes de pago. Contador matriculado. Online en Argentina. Respondemos en 24 hs. <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>H1</td><td>—</td><td>¿Tenés deuda en ARCA? La analizamos y te decimos cómo resolverla <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Schema</td><td>—</td><td>AccountingService + BreadcrumbList + FAQPage (5 preguntas) <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Diseño hero</td><td>—</td><td>Hero rojo/oscuro (urgencia diferenciada del teal de home) <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Contenido</td><td>—</td><td>4 cards de problemas (rojo), proceso 4 pasos, FAQ, testimonio real Mariela Diaz, enlaces internos <span class="tag-new">NUEVO</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- MONOTRIBUTO -->
+    <div class="page-block">
+      <div class="page-block-title">
+        📋 MONOTRIBUTO <span class="page-url-badge">https://www.contadoresya.ar/monotributo</span>
+      </div>
+      <table class="diff-table">
+        <thead><tr><th>Campo</th><th>❌ ANTES</th><th>✅ DESPUÉS</th></tr></thead>
+        <tbody>
+          <tr><td>Title</td><td>Monotributo en Mendoza | ContadoresYa (conflicto con contador-en-mendoza.com.ar)</td><td>Monotributo Argentina | Exclusión, Deuda y Recategorización | ContadoresYa <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>H1</td><td>Monotributo en Mendoza</td><td>¿Problemas con el monotributo? Te ayudamos a resolverlo <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Keyword foco</td><td>"Monotributo en Mendoza" → canibaliza dominio .com.ar</td><td>"Monotributo Argentina" → alcance nacional, sin canibalización <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Schema</td><td>Sin schema</td><td>AccountingService + BreadcrumbList + FAQPage <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Contenido</td><td>Texto genérico, sin estructura de servicios</td><td>Grid de situaciones frecuentes, 6 servicios específicos, proceso 4 pasos, FAQ, testimonio Ayelen Anze <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Canonical</td><td>https://contadoresya.ar/monotributo (sin www)</td><td>https://www.contadoresya.ar/monotributo (con www) <span class="tag-fix">CORREGIDO</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- IMPUESTOS -->
+    <div class="page-block">
+      <div class="page-block-title">
+        📑 IMPUESTOS <span class="page-url-badge">https://www.contadoresya.ar/impuestos</span>
+      </div>
+      <table class="diff-table">
+        <thead><tr><th>Campo</th><th>❌ ANTES</th><th>✅ DESPUÉS</th></tr></thead>
+        <tbody>
+          <tr><td>Title</td><td>Impuestos Mendoza | ContadoresYa (referencia geográfica incorrecta para este dominio)</td><td>Impuestos Online Argentina | IVA, Ganancias y Bienes Personales | ContadoresYa <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>H1</td><td>Impuestos en Mendoza</td><td>Impuestos al día, sin multas y sin sorpresas <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Schema</td><td>Sin schema</td><td>AccountingService + BreadcrumbList + FAQPage (5 preguntas sobre IVA, Ganancias, Bienes Personales) <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Contenido</td><td>Lista de impuestos sin detalle</td><td>Grid 6 impuestos con descripción, alert box de vencimientos, proceso 4 pasos, testimonio Eugenia Lagos <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Canonical</td><td>Sin www</td><td>Con www <span class="tag-fix">CORREGIDO</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SUELDOS -->
+    <div class="page-block">
+      <div class="page-block-title">
+        👥 SUELDOS <span class="page-url-badge">https://www.contadoresya.ar/sueldos</span>
+      </div>
+      <table class="diff-table">
+        <thead><tr><th>Campo</th><th>❌ ANTES</th><th>✅ DESPUÉS</th></tr></thead>
+        <tbody>
+          <tr><td>Title</td><td>Liquidación de Sueldos Mendoza | ContadoresYa</td><td>Liquidación de Sueldos Online Argentina | Recibos y Aportes | ContadoresYa <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>H1</td><td>Sueldos en Mendoza</td><td>Sueldos, aportes y recibos, sin errores ni incumplimientos <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Schema</td><td>Sin schema</td><td>AccountingService + BreadcrumbList + FAQPage (F.931, liquidación final, convenios) <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Contenido</td><td>Texto genérico</td><td>Badges de convenios (Comercio, UOCRA, Gastronómicos, LCT), 6 servicios, proceso 4 pasos, testimonio Gabriel Gil <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Canonical</td><td>Sin www</td><td>Con www <span class="tag-fix">CORREGIDO</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CERTIFICACION -->
+    <div class="page-block">
+      <div class="page-block-title">
+        📄 CERTIFICACIÓN DE INGRESOS <span class="page-url-badge">https://www.contadoresya.ar/certificacion-de-ingresos</span>
+      </div>
+      <table class="diff-table">
+        <thead><tr><th>Campo</th><th>❌ ANTES</th><th>✅ DESPUÉS</th></tr></thead>
+        <tbody>
+          <tr><td>Title</td><td>Certificación de Ingresos Mendoza | ContadoresYa</td><td>Certificación de Ingresos Online | Contador Matriculado | ContadoresYa <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>H1</td><td>Certificación de ingresos en Mendoza</td><td>Certificación de ingresos para monotributistas y autónomos <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Schema</td><td>Sin schema</td><td>AccountingService + BreadcrumbList + FAQPage (créditos, alquileres, visas, apostilla) <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Contenido</td><td>Texto mínimo sin estructura de usos</td><td>Grid 6 usos frecuentes, proceso 4 pasos (24-48 hs), testimonio Grecia Lopez, FAQ 5 preguntas <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Canonical</td><td>Sin www</td><td>Con www <span class="tag-fix">CORREGIDO</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- CONTADORES EN MENDOZA -->
+    <div class="page-block">
+      <div class="page-block-title">
+        🍇 CONTADORES EN MENDOZA — <strong style="color:#dc2626">CAMBIO ESTRATÉGICO CRÍTICO</strong>
+        <span class="page-url-badge">https://www.contadoresya.ar/contadores-en-mendoza</span>
+      </div>
+      <div class="alert alert-red"><strong>⚠️ Cambio SEO estratégico:</strong> Esta página estaba generando canibalización directa con <code>contador-en-mendoza.com.ar</code>. Ambas competían por "contadores en Mendoza". La keyword fue pivotada a <strong>"contador online para Mendoza"</strong> (intención remota/urgente vs. intención presencial). La URL se mantiene igual para no perder el historial de indexación.</div>
+      <table class="diff-table">
+        <thead><tr><th>Campo</th><th>❌ ANTES</th><th>✅ DESPUÉS</th></tr></thead>
+        <tbody>
+          <tr><td>Title</td><td>Contadores en Mendoza | ContadoresYa ← CANIBALIZACIÓN con contador-en-mendoza.com.ar</td><td>Contador Online para Mendoza | Impuestos y Monotributo | ContadoresYa <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>H1</td><td>Contadores en Mendoza Online</td><td>¿Necesitás un contador online para Mendoza? <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Keyword foco</td><td>"Contadores en Mendoza" → mismo target que el otro dominio</td><td>"Contador online para Mendoza" → diferente intención de búsqueda, sin solapamiento <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Schema</td><td>Sin schema</td><td>AccountingService con dirección completa (Guaymallén, Mendoza) + BreadcrumbList + FAQPage <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Contenido Mendoza</td><td>Texto genérico copiado de las otras páginas geográficas</td><td>Sección exclusiva ATM Ingresos Brutos, 4 programas provinciales (Mendoza Activa, Enlazados, Emprende Semilla, ATM), Google Maps, NAP completo (Guaymallén) <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Hero visual</td><td>Igual al resto del sitio</td><td>Hero violeta/morado (diferenciado visualmente de las otras páginas) <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Testimonios</td><td>Genéricos</td><td>2 reseñas reales de Google: Alberto Herrera + Ayelen Anze <span class="tag-fix">CORREGIDO</span></td></tr>
+          <tr><td>Canonical</td><td>Sin www</td><td>Con www <span class="tag-fix">CORREGIDO</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ESTUDIO CONTABLE -->
+    <div class="page-block">
+      <div class="page-block-title">
+        🏛 SOBRE EL ESTUDIO <span class="page-url-badge">https://www.contadoresya.ar/estudio-contable</span>
+        <span class="tag-new">PÁGINA NUEVA</span>
+      </div>
+      <table class="diff-table">
+        <thead><tr><th>Campo</th><th>❌ ANTES</th><th>✅ DESPUÉS</th></tr></thead>
+        <tbody>
+          <tr><td>Title</td><td>Página no existía</td><td>Sobre el Estudio | Cr. Darío Vallinas | ContadoresYa <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>H1</td><td>—</td><td>Más de 20 años al servicio de empresas y personas <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Schema</td><td>—</td><td>AccountingService completo + Person (Darío Vallinas, matrícula, memberOf C.P.C.E.M.D.Z.) + BreadcrumbList <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>E-E-A-T</td><td>—</td><td>Datos de matrícula, años de experiencia, reseñas verificadas, vínculos a los 3 dominios del Estudio (sameAs en schema) <span class="tag-new">NUEVO</span></td></tr>
+          <tr><td>Contenido</td><td>—</td><td>Perfil profesional, 6 valores del Estudio, 3 reseñas reales, banner rating 5.0/56, grilla de los 3 dominios web <span class="tag-new">NUEVO</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECCIÓN 4 — INSTRUCCIONES DE IMPLEMENTACIÓN
+════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">4</div>
+    <div class="section-title">Instrucciones de implementación — Orden de ejecución</div>
+  </div>
+  <div class="section-body">
+    <div class="alert alert-amber"><strong>Importante:</strong> Seguir el orden indicado. Los pasos 1-3 son de servidor y deben resolverse antes de subir los archivos HTML.</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-content">
+          <div class="step-title">Configurar redirect 301 no-www → www + HTTP → HTTPS</div>
+          <div class="step-desc">Modificar .htaccess (Apache) o nginx.conf. Verificar que <code>contadoresya.ar</code> y <code>http://contadoresya.ar</code> redirijan correctamente a <code>https://www.contadoresya.ar</code>. Testear con herramienta de redirección antes de continuar.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <div class="step-title">Eliminar o redirigir /contadores-en-cordoba y /contadores-en-buenos-aires</div>
+          <div class="step-desc">Borrar los archivos del servidor y agregar redirect 301 de ambas URLs hacia home. Verificar que devuelvan 301 y no 404.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <div class="step-title">Verificar que el CMS no sobreescriba las etiquetas &lt;title&gt; y canonical</div>
+          <div class="step-desc">Algunos CMS (WordPress, Joomla, etc.) insertan sus propios title y canonical, sobreescribiendo los del HTML. Desactivar esa función para las páginas que se van a reemplazar, o subir los HTML como archivos estáticos fuera del CMS.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <div class="step-title">Subir los 8 archivos HTML a sus rutas correspondientes</div>
+          <div class="step-desc">Respetar exactamente las URLs indicadas en la Sección 1. Verificar que cada página devuelva código 200 y que el title sea el correcto (inspeccionar con F12 → Elements).</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <div class="step-title">Actualizar el mapa del Google Maps en /contadores-en-mendoza</div>
+          <div class="step-desc">El iframe de Google Maps en <code>contadoresya-contadores-en-mendoza.html</code> tiene un embed genérico como placeholder. Reemplazarlo con el mismo embed que ya está funcionando en el sitio actual. El código del iframe se obtiene en Google Maps → Compartir → Incorporar un mapa. Verificar que muestre la ficha "Contador Público Matriculado en Mendoza - Dario Vallinas".</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <div class="step-title">Actualizar y enviar el sitemap.xml a Google Search Console</div>
+          <div class="step-desc">Reemplazar el sitemap existente con el nuevo (ver Sección 2). Enviarlo en Search Console → Sitemaps → Agregar nuevo sitemap. Si ya existe una propiedad para no-www, gestionarla como propiedad secundaria.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <div class="step-title">Solicitar reindexación de las páginas modificadas en Search Console</div>
+          <div class="step-desc">Ir a Search Console → Inspección de URL → pegar cada URL → Solicitar indexación. Hacerlo en orden: home, /deudas-arca, /monotributo, /impuestos, /sueldos, /certificacion-de-ingresos, /contadores-en-mendoza, /estudio-contable.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <div class="step-title">Verificar render de Schema.org en todas las páginas</div>
+          <div class="step-desc">Usar la herramienta de prueba de resultados enriquecidos de Google (<a href="https://search.google.com/test/rich-results" style="color:#0891b2">search.google.com/test/rich-results</a>) para validar que los schemas FAQPage, AccountingService y BreadcrumbList se detecten correctamente en cada URL.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-content">
+          <div class="step-title">Validar en mobile y verificar velocidad con PageSpeed Insights</div>
+          <div class="step-desc">Abrir cada página en PageSpeed Insights (<a href="https://pagespeed.web.dev" style="color:#0891b2">pagespeed.web.dev</a>) y verificar que el puntaje mobile supere 80. Los archivos son HTML estático con CSS inline, lo que favorece la velocidad.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SECCIÓN 5 — RESUMEN EJECUTIVO
+════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">5</div>
+    <div class="section-title">Resumen ejecutivo — Qué se corrigió y por qué</div>
+  </div>
+  <div class="section-body">
+    <div class="summary-grid" style="margin-bottom:28px">
+      <div class="summary-card"><div class="summary-num">8</div><div class="summary-label">Páginas entregadas</div></div>
+      <div class="summary-card"><div class="summary-num">2</div><div class="summary-label">Páginas nuevas (no existían)</div></div>
+      <div class="summary-card"><div class="summary-num">100%</div><div class="summary-label">Páginas con Schema.org</div></div>
+      <div class="summary-card"><div class="summary-num">0</div><div class="summary-label">Keywords en conflicto con los otros 2 dominios</div></div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:700;color:var(--primary);margin-bottom:14px">Checklist de validación post-implementación</h3>
+    <div class="checklist">
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Redireccionamiento www/no-www:</strong> contadoresya.ar redirige 301 a www.contadoresya.ar</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>HTTPS forzado:</strong> todo el tráfico HTTP redirige a HTTPS</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Páginas de Córdoba y Buenos Aires eliminadas:</strong> devuelven 301 hacia home, no 404</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Title de home correcto:</strong> NO contiene "Mendoza". Verificar con F12 → &lt;title&gt; en el HTML</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Title de /contadores-en-mendoza correcto:</strong> dice "Contador Online para Mendoza", NO "Contadores en Mendoza"</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Canonical de home:</strong> apunta a https://www.contadoresya.ar/ (con www y https)</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Schema detectado:</strong> FAQPage, AccountingService y BreadcrumbList validados en todas las páginas</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Google Maps en /contadores-en-mendoza:</strong> muestra la ficha real del Estudio (no el placeholder genérico)</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Sitemap.xml actualizado:</strong> 8 URLs correctas, sin /cordoba ni /buenos-aires</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Reindexación solicitada en Search Console:</strong> todas las páginas enviadas para revisión</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>PageSpeed Mobile &gt; 80:</strong> verificado en al menos home y /contadores-en-mendoza</div></div>
+    </div>
+
+    <div class="alert alert-green" style="margin-top:24px">
+      <strong>Contexto del proyecto:</strong> Este sitio es el tercero de un ecosistema de tres dominios del Estudio Contable Vallinas. Los otros dos (<code>contador-en-mendoza.com.ar</code> y <code>estudio-contable-mendoza.com.ar</code>) ya fueron actualizados en una entrega anterior. El objetivo central de este rediseño fue <strong>eliminar la canibalización de keywords entre los tres dominios</strong>, asignando a cada uno un rol y una intención de búsqueda distintos:<br><br>
+      • <code>contador-en-mendoza.com.ar</code> → "contador en Mendoza" (presencial, local, orgánico)<br>
+      • <code>estudio-contable-mendoza.com.ar</code> → "estudio contable Mendoza" (Google Ads + conversión)<br>
+      • <code>contadoresya.ar</code> → "deuda ARCA", "monotributo Argentina", "contador online" (nacional, orgánico, urgencia)
+    </div>
+  </div>
+</div>
+
+</div><!-- end .page -->
+
+<div class="brief-footer">
+  <span>Brief Técnico — <strong>www.contadoresya.ar</strong> · Para uso interno DevZeppelin</span>
+  <span>Estudio Contable Vallinas · Cr. Darío Vallinas · Matrícula 9156 C.P.C.E.M.D.Z. · <strong>cpnvallinas@gmail.com</strong></span>
+</div>
+
+</body>
+</html>

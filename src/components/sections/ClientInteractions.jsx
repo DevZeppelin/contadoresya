@@ -30,42 +30,32 @@ export default function ClientInteractions() {
     const onClick = (event) => {
       const menuButton = event.target.closest(".client-menu-toggle");
       if (menuButton) {
-        const header = menuButton.closest("header");
-        const open = header?.classList.toggle("client-menu-open");
+        const nav = menuButton.closest(".nav");
+        const open = nav?.classList.toggle("client-menu-open");
         menuButton.setAttribute("aria-expanded", String(Boolean(open)));
         menuButton.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
-        if (!open) {
-          header?.querySelectorAll(".nav-dropdown.client-submenu-open").forEach((item) => item.classList.remove("client-submenu-open"));
-          header?.querySelectorAll("[data-client-submenu]").forEach((item) => item.setAttribute("aria-expanded", "false"));
-        }
         return;
       }
 
-      const submenuButton = event.target.closest("[data-client-submenu]");
-      if (submenuButton) {
-        event.preventDefault();
-        const item = submenuButton.closest(".nav-dropdown");
-        const open = item?.classList.toggle("client-submenu-open");
-        submenuButton.setAttribute("aria-expanded", String(Boolean(open)));
-        return;
-      }
-
-      const navigationLink = event.target.closest("header .nav-links a");
+      const navigationLink = event.target.closest(".nav .nav-links a");
       if (navigationLink) {
-        const header = navigationLink.closest("header");
-        header?.classList.remove("client-menu-open");
-        header?.querySelector(".client-menu-toggle")?.setAttribute("aria-expanded", "false");
-        header?.querySelectorAll(".nav-dropdown.client-submenu-open").forEach((item) => item.classList.remove("client-submenu-open"));
-        header?.querySelectorAll("[data-client-submenu]").forEach((item) => item.setAttribute("aria-expanded", "false"));
+        const nav = navigationLink.closest(".nav");
+        nav?.classList.remove("client-menu-open");
+        nav?.querySelector(".client-menu-toggle")?.setAttribute("aria-expanded", "false");
       }
 
+      // FAQ acordeón (misma mecánica que el script original de los HTML del cliente)
       const button = event.target.closest(".faq-q");
       if (!button) return;
-      const item = button.closest(".faq-item");
-      const wasOpen = item?.classList.contains("open");
-      const list = item?.closest(".faq-list");
-      list?.querySelectorAll(".faq-item.open").forEach((node) => node.classList.remove("open"));
-      if (!wasOpen) item?.classList.add("open");
+      const answer = button.nextElementSibling;
+      const icon = button.querySelector(".icon");
+      const wasOpen = answer?.classList.contains("open");
+      document.querySelectorAll(".client-document .faq-a.open").forEach((node) => node.classList.remove("open"));
+      document.querySelectorAll(".client-document .faq-q .icon").forEach((node) => { node.textContent = "+"; });
+      if (!wasOpen) {
+        answer?.classList.add("open");
+        if (icon) icon.textContent = "−";
+      }
     };
 
     document.addEventListener("click", onClick);
